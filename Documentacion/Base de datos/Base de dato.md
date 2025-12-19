@@ -45,3 +45,6 @@ Ref: "pais"."id" < "usuarios"."pais"
 Ref: "usuarios"."id" < "pasaporte"."id_usuario"
 ```
 
+
+# Base de dato en MySQL
+
