@@ -1,0 +1,2 @@
+| ID | Categoría | Escenario | Prioridad |
+|----|-----------|-----------|-----------|
