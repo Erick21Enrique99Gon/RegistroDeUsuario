@@ -1,2 +1,3 @@
 | ID | Categoría | Escenario | Prioridad |
 |----|-----------|-----------|-----------|
+|RNF|Seguridad|**Fuente de estímulo:** un usuario no autorizado <br/> **Estímulo:** intenta acceder al sistema <br/> **Artefacto:** API de backend o interfaz web <br/> **Entorno:** en operación normal <br/> **Respuesta:** se deniega el acceso <br/> **Medida de la respuesta:** acceso denegado en tiempo inmediato|AA|
