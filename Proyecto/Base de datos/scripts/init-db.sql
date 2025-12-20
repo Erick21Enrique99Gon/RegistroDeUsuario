@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS pasaporte (
     lugar VARCHAR(255) NOT NULL,
     pais_de_emision INT NOT NULL,
     numero_de_pasaporte VARCHAR(50) NOT NULL,
-    activo BOOLEAN NOT NULL DEFAULT TRUE,
+    habilitado BOOLEAN NOT NULL DEFAULT TRUE,
     PRIMARY KEY (numero_de_pasaporte),
     FOREIGN KEY (id_usuario) REFERENCES usuarios(id) ON DELETE CASCADE,
     FOREIGN KEY (pais_de_emision) REFERENCES pais(id),
@@ -128,7 +128,7 @@ BEGIN
     END;
 
     INSERT INTO pasaporte (id_usuario, tipo_de_pasaporte, fecha_de_emision, fecha_de_vencimiento, 
-                          lugar, pais_de_emision, numero_de_pasaporte, activo)
+                          lugar, pais_de_emision, numero_de_pasaporte, habilitado)
     VALUES (p_id_usuario, p_tipo_pasaporte, p_fecha_emision, p_fecha_vencimiento, 
             p_lugar, p_pais_emision, p_numero_pasaporte, TRUE);
     RETURN 'SUCCESS';
@@ -225,11 +225,11 @@ DELIMITER ;
 
 DELIMITER $$
 
-DROP FUNCTION IF EXISTS cambiar_estado_pasaporte_activo $$
+DROP FUNCTION IF EXISTS cambiar_estado_pasaporte_habilitado $$
 
-CREATE FUNCTION cambiar_estado_pasaporte_activo(
+CREATE FUNCTION cambiar_estado_pasaporte_habilitado(
     p_numero_pasaporte VARCHAR(50),
-    p_activo BOOLEAN  -- TRUE=activar, FALSE=desactivar
+    p_habilitado BOOLEAN  -- TRUE=activar, FALSE=desactivar
 )
 RETURNS VARCHAR(200)
 DETERMINISTIC
@@ -250,23 +250,23 @@ BEGIN
     END IF;
 
     -- 2. Si se quiere DESACTIVAR, hacerlo directamente
-    IF NOT p_activo THEN
-        UPDATE pasaporte SET activo = FALSE WHERE numero_de_pasaporte = p_numero_pasaporte;
+    IF NOT p_habilitado THEN
+        UPDATE pasaporte SET habilitado = FALSE WHERE numero_de_pasaporte = p_numero_pasaporte;
         RETURN 'SUCCESS_DESACTIVADO';
     END IF;
 
-    -- 3. Si se quiere ACTIVAR, verificar que no hay otro activo del mismo usuario
+    -- 3. Si se quiere ACTIVAR, verificar que no hay otro habilitado del mismo usuario
     IF EXISTS (
         SELECT 1 FROM pasaporte 
         WHERE id_usuario = (SELECT id_usuario FROM pasaporte WHERE numero_de_pasaporte = p_numero_pasaporte)
-        AND activo = TRUE 
+        AND habilitado = TRUE 
         AND numero_de_pasaporte != p_numero_pasaporte
     ) THEN
-        RETURN 'ERROR_PASAPORTE_YA_ACTIVO: Ya existe otro pasaporte activo para este usuario';
+        RETURN 'ERROR_PASAPORTE_YA_HABILITADO: Ya existe otro pasaporte habilitado para este usuario';
     END IF;
 
-    -- 4. ACTIVAR (es seguro, no hay otro activo)
-    UPDATE pasaporte SET activo = TRUE WHERE numero_de_pasaporte = p_numero_pasaporte;
+    -- 4. ACTIVAR (es seguro, no hay otro habilitado)
+    UPDATE pasaporte SET habilitado = TRUE WHERE numero_de_pasaporte = p_numero_pasaporte;
     RETURN 'SUCCESS_ACTIVADO';
 END$$
 
@@ -296,12 +296,12 @@ INSERT INTO usuarios (id, correo_electronico, telefono, nombres, apellidos, sexo
 ('ADMIN001', 'admin1@proyecto.com', '+521555123456', 'Admin', 'Sistema Uno', 'M', 'Masculino', 1, AES_ENCRYPT('admin123', 'saltykey'), TRUE, FALSE, TRUE),
 ('ADMIN002', 'admin2@proyecto.com', '+521555654321', 'Admin', 'Sistema Dos', 'F', 'Femenino', 2, AES_ENCRYPT('admin456', 'saltykey'), TRUE, FALSE, TRUE);
 
--- Pasaporte 1 (ACTIVO)
+-- Pasaporte 1 (HABILITADO)
 SELECT insertar_pasaporte('ADMIN001', 'Diplomatico', '2024-01-01', '2034-01-01', 'CDMX', 1, 'MXD001234');
 
--- Pasaporte 2 (INACTIVO)
+-- Pasaporte 2 (INHABILITADO)
 SELECT insertar_pasaporte('ADMIN001', 'Emergencia', '2023-06-15', '2028-06-15', 'Guadalajara', 1, 'MXE005678');
 
--- Pasaporte 3 (INACTIVO)
+-- Pasaporte 3 (INHABILITADO)
 SELECT insertar_pasaporte('ADMIN001', 'Ordinario', '2022-09-10', '2032-09-10', 'Monterrey', 1, 'MXO009ABC');
 
