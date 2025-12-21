@@ -22,6 +22,8 @@ import { ContraseniaUsuarioSistemaUseCase } from 'src/application/use_cases/cont
 import { ContraseniaUsuarioUseCaseRequest } from 'src/application/dtos/contraseniaUsuario_sistema.dto';
 import { AutenticarUsuarioSistemaUseCase } from 'src/application/use_cases/autenticarUsuario_sistema.use_case';
 import { ListarUsuarioSistemaUseCase } from 'src/application/use_cases/listarUsuario_sistema.use_case';
+import { RegistrarPasaporteSistemaUseCase } from 'src/application/use_cases/registrarPasaporte_sistema.use_case';
+import { RegistrarPasaporteUseCaseRequest } from 'src/application/dtos/registrarPasaporte_sistema.dto';
 @Controller('')
 export class SistemaController {
 
@@ -32,7 +34,8 @@ export class SistemaController {
         private readonly _toggleUsuarioSistemaUseCase:ToggleUsuarioSistemaUseCase,
         private readonly _contraseniaUsuarioSistemaUseCase:ContraseniaUsuarioSistemaUseCase,
         private readonly _autenticarUsuarioSistemaUseCase:AutenticarUsuarioSistemaUseCase,
-        private readonly _listarUsuarioSistemaUseCase:ListarUsuarioSistemaUseCase
+        private readonly _listarUsuarioSistemaUseCase:ListarUsuarioSistemaUseCase,
+        private readonly _registrarPasaporteSistemaUseCase:RegistrarPasaporteSistemaUseCase
     ) { }
 
     @Get('health/ready')
@@ -136,9 +139,19 @@ export class SistemaController {
     }
 
     @Post('registrarPasaporte')
-    async registrarPasaporte(@Body() body) {
-        console.log(`Registrando pasaporte: ${body}`);
-        return { status: 'Pasaporte registrado' };
+    async registrarPasaporte(@Body() body:RegistrarPasaporteUseCaseRequest) {
+        try {
+            console.log(typeof body.fecha_de_emision)
+            body.fecha_de_emision = new Date(body.fecha_de_emision)
+            body.fecha_de_vencimiento = new Date(body.fecha_de_vencimiento)
+            return await this._registrarPasaporteSistemaUseCase.execute(body)
+        } catch (e) {
+            if (e instanceof InvalidRequestError) {
+            // 400 + mensaje legible
+            throw new BadRequestException(e.message);
+            }
+            throw e;
+        }
     }
 
     @Get('obtenerPasaporte/:usuarioId/:pasaporteId')
@@ -156,15 +169,6 @@ export class SistemaController {
         return { status: 'Pasaporte habilitar de usuario' };
     }
 
-    @Post('deshabilitarPasaporteUsuario/:usuarioId/:pasaporteId')
-    async deshabilitarPasaporteUsuario(
-        @Param('usuarioId') usuarioId: string,
-        @Param('pasaporteId') pasaporteId: string,
-    ) {
-        console.log(`deshabilitar pasaporte ${pasaporteId} con usuario ${usuarioId}`);
-        return { status: 'Pasaporte deshabilitar de usuario' };
-    }
-
     @Post('listarPasaportes')
     async listarPasaportes(@Body() body) {
         console.log(`Pasaportes: ${body}`);
@@ -177,5 +181,10 @@ export class SistemaController {
         return { status: 'Pasaportes de usuario', token: 'token-de-ejemplo' };
     }
 
+    @Post('listarPaises')
+    async listarPaise(@Body() body) {
+        console.log(`Paises: ${body}`);
+        return { status: 'Paises', token: 'token-de-ejemplo' };
+    }
 
 }

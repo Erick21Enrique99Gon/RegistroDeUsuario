@@ -44,6 +44,7 @@ CREATE TABLE IF NOT EXISTS pasaporte (
     habilitado BOOLEAN NOT NULL DEFAULT TRUE,
     FOREIGN KEY (id_usuario) REFERENCES usuarios(id) ON DELETE CASCADE,
     FOREIGN KEY (pais_de_emision) REFERENCES pais(id),
+    UNIQUE KEY uk_pasaporte_lugar (numero_de_pasaporte, lugar),  -- Evita duplicados por número+lugar
     INDEX idx_usuario (id_usuario),
     INDEX idx_pasaporte_numero (numero_de_pasaporte)
 );
@@ -106,7 +107,7 @@ CREATE PROCEDURE insertar_pasaporte(
     IN p_fecha_vencimiento DATETIME,
     IN p_lugar VARCHAR(255),
     IN p_pais_emision INT,
-    IN p_numero_pasaporte VARCHAR(50)
+    IN p_numero_de_pasaporte VARCHAR(50)
 )
 MODIFIES SQL DATA
 BEGIN
@@ -117,22 +118,24 @@ BEGIN
         @errno = MYSQL_ERRNO,
         @text = MESSAGE_TEXT;
 
-        CASE @errno
-            WHEN 1452 THEN
-                IF @text LIKE '%usuarios(id)%' THEN
+        -- Manejar errores de Foreign Key (1452) por constraint name
+        IF @errno = 1452 THEN
+            CASE 
+                WHEN @text LIKE '%pasaporte_ibfk_1%' THEN
                     SELECT 'ERROR_USUARIO_INEXISTENTE: Usuario no encontrado' as resultado;
-                ELSEIF @text LIKE '%paises(id)%' THEN
+                WHEN @text LIKE '%pasaporte_ibfk_2%' OR @text LIKE '%pais_de_emision%' THEN
                     SELECT 'ERROR_PAIS_EMISION_INVALIDO: Pais de emision no existe' as resultado;
                 ELSE
                     SELECT CONCAT('ERROR_FK_', @errno, ': ', @text) as resultado;
-                END IF;
-            WHEN 1062 THEN
-                SELECT 'ERROR_PASAPORTE_DUPLICADO: Pasaporte ya registrado' as resultado;
-            WHEN 1364 THEN
-                SELECT 'ERROR_CAMPO_NULL: Campo requerido vacio' as resultado;
-            ELSE
-                SELECT CONCAT('ERROR_DB_', @errno, ': ', @text) as resultado;
-        END CASE;
+            END CASE;
+        -- Otros errores específicos
+        ELSEIF @errno = 1062 THEN
+            SELECT 'ERROR_PASAPORTE_DUPLICADO: Pasaporte ya registrado' as resultado;
+        ELSEIF @errno = 1364 THEN
+            SELECT 'ERROR_CAMPO_NULL: Campo requerido vacio' as resultado;
+        ELSE
+            SELECT CONCAT('ERROR_DB_', @errno, ': ', @text) as resultado;
+        END IF;
     END;
 
     INSERT INTO pasaporte (
@@ -140,12 +143,13 @@ BEGIN
         lugar, pais_de_emision, numero_de_pasaporte, habilitado
     ) VALUES (
         p_id_usuario, p_tipo_pasaporte, p_fecha_emision, p_fecha_vencimiento,
-        p_lugar, p_pais_emision, p_numero_pasaporte, TRUE
+        p_lugar, p_pais_emision, p_numero_de_pasaporte, TRUE
     );
 
     SELECT 'SUCCESS' as resultado;
 END$$
 DELIMITER ;
+
 
 -- 3. CAMBIAR ESTADO USUARIO
 DELIMITER $$

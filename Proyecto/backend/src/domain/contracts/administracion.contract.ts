@@ -8,7 +8,7 @@ export abstract class AdministracionContract{
     public abstract contraseniaUsuario(id:string,contrasenia:string):Promise<void>;
     public abstract autenticarUsuario(id:string):Promise<string>;
     public abstract listarUsuario():Promise<Usuario[]>;
-    // public abstract registrarPasaporte(pasaporte:Pasaporte):Promise<void>;
+    public abstract registrarPasaporte(pasaporte:Pasaporte):Promise<void>;
     // public abstract obtenerPasaporte(id_usuario:string,numero_de_pasaporte:string):Promise<Pasaporte>
     // public abstract togglePasaporteUsuarioStatus(id_usuario:string,numero_de_pasaporte:string):Promise<void>;
     // public abstract listarPasaportes():Promise<Pasaporte[]>

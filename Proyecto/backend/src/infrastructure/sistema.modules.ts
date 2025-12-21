@@ -10,6 +10,7 @@ import { ToggleUsuarioSistemaUseCase } from "src/application/use_cases/toggleUsu
 import { ContraseniaUsuarioSistemaUseCase } from "src/application/use_cases/contraseniaUsuario_sistema.use_case";
 import { AutenticarUsuarioSistemaUseCase } from "src/application/use_cases/autenticarUsuario_sistema.use_case";
 import { ListarUsuarioSistemaUseCase } from "src/application/use_cases/listarUsuario_sistema.use_case";
+import { RegistrarPasaporteSistemaUseCase } from "src/application/use_cases/registrarPasaporte_sistema.use_case";
 @Module({
     imports: [MySQLModule],
     controllers: [SistemaController],
@@ -21,6 +22,7 @@ import { ListarUsuarioSistemaUseCase } from "src/application/use_cases/listarUsu
         ContraseniaUsuarioSistemaUseCase,
         AutenticarUsuarioSistemaUseCase,
         ListarUsuarioSistemaUseCase,
+        RegistrarPasaporteSistemaUseCase,
         {
             provide:AdministracionContract,
             useClass:MySQLAdministracionRepository

@@ -11,7 +11,8 @@ export class ObtenerUsuarioSistemaUseCase{
         if (!id || id.trim().length === 0) {
             throw new InvalidRequestError('El identificador es necesarios');
         }
-        const usuario = await this._sistema.obtenerUsuario(id)
+        var usuario = await this._sistema.obtenerUsuario(id)
+        usuario.contrasenia = ""
         return usuario
     }
 }

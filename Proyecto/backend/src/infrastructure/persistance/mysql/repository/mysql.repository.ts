@@ -159,28 +159,65 @@ export class MySQLAdministracionRepository extends AdministracionContract{
         return rows[0]['contrasenia']
     }
 
-public async listarUsuario(): Promise<Usuario[]> {
-    const sql = `SELECT id, correo_electronico, telefono, nombres, apellidos, 
-                        sexo, genero, pais, administrador, ciudadano, habilitado 
-                 FROM usuarios`;
-                 
-    const [rows, _ ]: [any[], any] = await this.mysql.query(sql);
-    return rows.map((row: any): Usuario => {
-        return {
-            id: row.id,
-            correo_electronico: row.correo_electronico,
-            telefono: row.telefono,
-            nombres: row.nombres,
-            apellidos: row.apellidos,
-            sexo: row.sexo,
-            genero: row.genero,
-            pais: Number(row.pais),
-            contrasenia: "", 
-            administrador: Boolean(row.administrador),
-            ciudadano: Boolean(row.ciudadano),
-            habilitado: Boolean(row.habilitado)
-        };
-    });
-}
+    public async listarUsuario(): Promise<Usuario[]> {
+        const sql = `SELECT id, correo_electronico, telefono, nombres, apellidos, 
+                            sexo, genero, pais, administrador, ciudadano, habilitado 
+                    FROM usuarios`;
+                    
+        const [rows, _ ]: [any[], any] = await this.mysql.query(sql);
+        return rows.map((row: any): Usuario => {
+            return {
+                id: row.id,
+                correo_electronico: row.correo_electronico,
+                telefono: row.telefono,
+                nombres: row.nombres,
+                apellidos: row.apellidos,
+                sexo: row.sexo,
+                genero: row.genero,
+                pais: Number(row.pais),
+                contrasenia: "", 
+                administrador: Boolean(row.administrador),
+                ciudadano: Boolean(row.ciudadano),
+                habilitado: Boolean(row.habilitado)
+            };
+        });
+    }
+
+    public async registrarPasaporte(pasaporte: Pasaporte): Promise<void> {
+        const sql = `CALL insertar_pasaporte(?, ?, ?, ?, ?, ?, ?)`;
+        const params = [
+            pasaporte.id_usuario,
+            pasaporte.tipo_de_pasaporte,
+            pasaporte.fecha_de_emision,
+            pasaporte.fecha_de_vencimiento,
+            pasaporte.lugar,
+            pasaporte.pais_de_emision,
+            pasaporte.numero_de_pasaporte
+        ];
+
+        const [result] = await this.mysql.execute(sql, params) as any;
+        
+        // El stored procedure devuelve un result set con un solo objeto que contiene 'resultado'
+        const mensaje = result[0][0]?.resultado || 'UNKNOWN';
+
+        console.log(mensaje)
+        switch (true) {
+            case mensaje.includes('ERROR_USUARIO_INEXISTENTE'):
+                throw new InvalidRequestError('Usuario no encontrado');
+            case mensaje.includes('ERROR_PAIS_EMISION_INVALIDO'):
+                throw new InvalidRequestError('País de emisión inválido');
+            case mensaje.includes('ERROR_PASAPORTE_DUPLICADO'):
+                throw new InvalidRequestError('Pasaporte ya registrado');
+            case mensaje.includes('ERROR_CAMPO_NULL'):
+                throw new InvalidRequestError('Campos requeridos vacíos');
+            case mensaje.includes('ERROR_DB_'):
+                throw new InvalidRequestError('Error de base de datos');
+            case mensaje === 'SUCCESS':
+                return;
+            default:
+                console.log(mensaje)
+                throw new InvalidRequestError('Error inesperado en base de datos');
+        }
+    }
 
 }

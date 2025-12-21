@@ -3,11 +3,14 @@ import { AdministracionContract } from "src/domain/contracts/administracion.cont
 import { InvalidRequestError } from "src/domain/errors/invalid_request.error";
 import { Injectable } from "@nestjs/common";
 import * as bcrypt from 'bcrypt';
-
+import { ObtenerUsuarioSistemaUseCase } from "./obtenerUsuario_sistema.use_case";
 @Injectable()
 export class AutenticarUsuarioSistemaUseCase{
     private readonly saltRounds : number = parseInt(process.env.HASH_SALT_ROUNDS || '12', 10);
-    constructor(private readonly _sistema: AdministracionContract) {}
+    constructor(
+        private readonly _sistema: AdministracionContract,
+        private readonly _obtenerUsuarioUsecase:ObtenerUsuarioSistemaUseCase
+    ) {}
 
     async execute( body:ContraseniaUsuarioUseCaseRequest){
         if (!body.id || body.id.trim().length === 0) {
@@ -20,6 +23,12 @@ export class AutenticarUsuarioSistemaUseCase{
         const contraseniaHex = Buffer.from(contraseniaSQL).toString('hex');
         const contrasenia = Buffer.from(contraseniaHex, 'hex').toString('utf8')
         const restult = await bcrypt.compare(body.contrasenia, contrasenia)
+
+        if (restult){
+            var usuario = await this._obtenerUsuarioUsecase.execute(body.id)
+            return { autenticacion: restult,usuario }
+        }
+
         return { autenticacion: restult };
     }
 }
