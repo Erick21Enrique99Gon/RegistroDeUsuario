@@ -37,7 +37,6 @@ CREATE TABLE IF NOT EXISTS pasaporte (
     pais_de_emision INT NOT NULL,
     numero_de_pasaporte VARCHAR(50) NOT NULL,
     habilitado BOOLEAN NOT NULL DEFAULT TRUE,
-    PRIMARY KEY (numero_de_pasaporte),
     FOREIGN KEY (id_usuario) REFERENCES usuarios(id) ON DELETE CASCADE,
     FOREIGN KEY (pais_de_emision) REFERENCES pais(id),
     INDEX idx_usuario (id_usuario),
