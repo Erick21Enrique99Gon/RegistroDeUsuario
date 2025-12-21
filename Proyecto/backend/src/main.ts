@@ -2,12 +2,15 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { AppErrorRestFilter } from './infrastructure/filters/rest/app_error.rest.filters';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { HttpAdapterHost } from '@nestjs/core';
+import * as dotenv from 'dotenv';
+dotenv.config();
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  const ctx = app.getHttpAdapter().getInstance();
+  const httpAdapterHost = app.get(HttpAdapterHost);
 
-  app.useGlobalFilters(new AppErrorRestFilter(ctx));
+  app.useGlobalFilters(new AppErrorRestFilter(httpAdapterHost));
 
    const config = new DocumentBuilder()
     .setTitle('Sistema API')

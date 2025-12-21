@@ -8,9 +8,25 @@ import {
 } from '@nestjs/common';
 
 import axios from 'axios';
+import { InvalidRequestError } from 'src/domain/errors/invalid_request.error';
+import { BadRequestException } from '@nestjs/common';
+
+import { RegistrarUsuarioUseCaseRequest } from 'src/application/dtos/registrarUsuario_sistema.dto';
+
+import { RegistrarUsuarioSistemaUseCase } from 'src/application/use_cases/registrarUsuario_sistema.use_case';
+import { ObtenerUsuarioSistemaUseCase } from 'src/application/use_cases/obtenerUsuario_sistema.use_case';
+import { ModifcarUsuarioSistemaUseCase } from 'src/application/use_cases/modificarUsuario_sistema.use_case';
+import { ModificarUsuarioUseCaseRequest } from 'src/application/dtos/modificarUsuario_sisteam.dto';
 
 @Controller('')
 export class SistemaController {
+
+    constructor(
+        private readonly _registrarUsuarioUseCase:RegistrarUsuarioSistemaUseCase,
+        private readonly _obtenerUsuarioUsecase:ObtenerUsuarioSistemaUseCase,
+        private readonly _modifcarUsuarioUseCase:ModifcarUsuarioSistemaUseCase
+    ) { }
+
     @Get('health/ready')
     getHealthReady() {
         return { status: 'ready' };
@@ -21,21 +37,42 @@ export class SistemaController {
     }
     
     @Post('registroUsuario')
-    async registrarUsuario(@Body() body) {
-        console.log(`Registrando usuario: ${body}`);
-        return { status: 'Usuario registrado' };
+    async registrarUsuario(@Body() body: RegistrarUsuarioUseCaseRequest) {
+        try {
+            return await this._registrarUsuarioUseCase.execute(body);
+        } catch (e) {
+            if (e instanceof InvalidRequestError) {
+            // 400 + mensaje legible
+            throw new BadRequestException(e.message);
+            }
+            throw e;
+        }
     }
 
     @Get('obtenerUsuario/:id')
     async obtenerUsuario(@Param('id') id: string) {
-        console.log(`Obteniendo usuario con ID: ${id}`);
-        return { id, nombre: 'Usuario de ejemplo' };
+        try {
+            return await this._obtenerUsuarioUsecase.execute(id);
+        } catch (e) {
+            if (e instanceof InvalidRequestError) {
+            // 400 + mensaje legible
+            throw new BadRequestException(e.message);
+            }
+            throw e;
+        }
     }
 
     @Post('modificarUsuario')
-    async modificarUsuario(@Body() body) {
-        console.log(`Modificando usuario: ${body}`);
-        return { status: 'Usuario modificado' };
+    async modificarUsuario(@Body() body: ModificarUsuarioUseCaseRequest) {
+        try {
+            return await this._modifcarUsuarioUseCase.execute(body);
+        } catch (e) {
+            if (e instanceof InvalidRequestError) {
+            // 400 + mensaje legible
+            throw new BadRequestException(e.message);
+            }
+            throw e;
+        }
     }
 
     @Post('deshabilitarUsuario/:id')

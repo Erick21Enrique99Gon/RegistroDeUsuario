@@ -8,10 +8,10 @@ import { MySQLAdministracionRepository } from './repository/mysql.repository';
             provide: "MYSQL_CLIENT",
             useFactory: async (): Promise<Pool>  =>{
                 return mysql.createPool({
-                host: process.env.DB_HOST || 'localhost',
-                user: process.env.DB_USER || 'root',
-                password: process.env.DB_PASSWORD || '',
-                database: process.env.DB_NAME || 'ProyectoDB',
+                host: process.env.MYSQL_HOST || 'localhost',
+                user: process.env.MYSQL_USER || 'root',
+                password: process.env.MYSQL_ROOT_PASSWORD || '',
+                database: process.env.MYSQL_DATABASE || 'ProyectoDB',
                 waitForConnections: true,
                 connectionLimit: 10,
                 queueLimit: 0
