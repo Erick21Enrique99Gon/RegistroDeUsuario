@@ -2,7 +2,8 @@ import { Inject, Injectable } from "@nestjs/common";
 import { Usuario,Pasaporte } from "src/domain/interfaces/sistema.interfaces";
 import { AdministracionContract } from "src/domain/contracts/administracion.contract";
 import { InvalidRequestError } from "src/domain/errors/invalid_request.error";
-import type {Pool,ResultSetHeader} from 'mysql2/promise';
+import {raw, type Pool,type ResultSetHeader} from 'mysql2/promise';
+import { NotFoundError } from "src/domain/errors/not_found.error";
 
 @Injectable()
 export class MySQLAdministracionRepository extends AdministracionContract{
@@ -50,7 +51,7 @@ export class MySQLAdministracionRepository extends AdministracionContract{
         const [rows] = await this.mysql.execute(sql, params);
         
         if (!Array.isArray(rows) || rows.length === 0) {
-            throw new InvalidRequestError('Usuario no encontrado');
+            throw new NotFoundError('Usuario no encontrado');
         }
 
         const usuario = rows[0] as any;
@@ -134,7 +135,7 @@ export class MySQLAdministracionRepository extends AdministracionContract{
         const [rows] = await this.mysql.execute(sql, params);
         
         if (!Array.isArray(rows) || rows.length === 0) {
-            throw new InvalidRequestError('Usuario no encontrado');
+            throw new NotFoundError('Usuario no encontrado');
         }
         const sql_update = `UPDATE usuarios SET contrasenia = ? WHERE id = ?`;
         const params_update = [contrasenia,id];
@@ -157,4 +158,29 @@ export class MySQLAdministracionRepository extends AdministracionContract{
 
         return rows[0]['contrasenia']
     }
+
+public async listarUsuario(): Promise<Usuario[]> {
+    const sql = `SELECT id, correo_electronico, telefono, nombres, apellidos, 
+                        sexo, genero, pais, administrador, ciudadano, habilitado 
+                 FROM usuarios`;
+                 
+    const [rows, _ ]: [any[], any] = await this.mysql.query(sql);
+    return rows.map((row: any): Usuario => {
+        return {
+            id: row.id,
+            correo_electronico: row.correo_electronico,
+            telefono: row.telefono,
+            nombres: row.nombres,
+            apellidos: row.apellidos,
+            sexo: row.sexo,
+            genero: row.genero,
+            pais: Number(row.pais),
+            contrasenia: "", 
+            administrador: Boolean(row.administrador),
+            ciudadano: Boolean(row.ciudadano),
+            habilitado: Boolean(row.habilitado)
+        };
+    });
+}
+
 }

@@ -21,6 +21,7 @@ import { ToggleUsuarioSistemaUseCase } from 'src/application/use_cases/toggleUsu
 import { ContraseniaUsuarioSistemaUseCase } from 'src/application/use_cases/contraseniaUsuario_sistema.use_case';
 import { ContraseniaUsuarioUseCaseRequest } from 'src/application/dtos/contraseniaUsuario_sistema.dto';
 import { AutenticarUsuarioSistemaUseCase } from 'src/application/use_cases/autenticarUsuario_sistema.use_case';
+import { ListarUsuarioSistemaUseCase } from 'src/application/use_cases/listarUsuario_sistema.use_case';
 @Controller('')
 export class SistemaController {
 
@@ -30,7 +31,8 @@ export class SistemaController {
         private readonly _modifcarUsuarioUseCase:ModifcarUsuarioSistemaUseCase,
         private readonly _toggleUsuarioSistemaUseCase:ToggleUsuarioSistemaUseCase,
         private readonly _contraseniaUsuarioSistemaUseCase:ContraseniaUsuarioSistemaUseCase,
-        private readonly _autenticarUsuarioSistemaUseCase:AutenticarUsuarioSistemaUseCase
+        private readonly _autenticarUsuarioSistemaUseCase:AutenticarUsuarioSistemaUseCase,
+        private readonly _listarUsuarioSistemaUseCase:ListarUsuarioSistemaUseCase
     ) { }
 
     @Get('health/ready')
@@ -120,10 +122,17 @@ export class SistemaController {
         }
     }
 
-    @Post('listarUsuarios')
-    async listarUsuarios(@Body() body) {
-        console.log(`Usuarios: ${body}`);
-        return { status: 'Usuarios', token: 'token-de-ejemplo' };
+    @Get('listarUsuarios')
+    async listarUsuarios() {
+        try {
+            return await this._listarUsuarioSistemaUseCase.execute();
+        } catch (e) {
+            if (e instanceof InvalidRequestError) {
+            // 400 + mensaje legible
+                throw new BadRequestException(e.message);
+            }
+            throw e;
+        }
     }
 
     @Post('registrarPasaporte')
