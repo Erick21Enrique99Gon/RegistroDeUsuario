@@ -1,7 +1,7 @@
 import { Usuario, Pasaporte } from "../interfaces/sistema.interfaces";
 
 export abstract class AdministracionContract{
-    // public abstract registrarUsuario(usuario:Usuario):Promise<void>;
+    public abstract registrarUsuario(usuario:Usuario):Promise<void>;
     // public abstract obtenerUsuario(id:string):Promise<Usuario>;
     // public abstract modificarUsuario(usuario:Usuario):Promise<void>;
     // public abstract deshabilitarUsuario(id:string):Promise<void>;
