@@ -1,12 +1,13 @@
 import mysql from 'mysql2/promise';
+import type { Pool } from 'mysql2/promise';
 import { Module } from "@nestjs/common";
 
 @Module({
     providers: [
         {
             provide: "MYSQL_CLIENT",
-            useFactory: () =>
-                mysql.createPool({
+            useFactory: async (): Promise<Pool>  =>{
+                return mysql.createPool({
                 host: process.env.DB_HOST || 'localhost',
                 user: process.env.DB_USER || 'root',
                 password: process.env.DB_PASSWORD || '',
@@ -15,6 +16,7 @@ import { Module } from "@nestjs/common";
                 connectionLimit: 10,
                 queueLimit: 0
                 })
+            }
         },
     ],
     exports: ["MYSQL_CLIENT"],
