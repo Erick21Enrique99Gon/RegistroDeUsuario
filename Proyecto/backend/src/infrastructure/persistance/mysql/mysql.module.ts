@@ -1,7 +1,7 @@
 import mysql from 'mysql2/promise';
 import type { Pool } from 'mysql2/promise';
 import { Module } from "@nestjs/common";
-
+import { MySQLAdministracionRepository } from './repository/mysql.repository';
 @Module({
     providers: [
         {
@@ -18,7 +18,8 @@ import { Module } from "@nestjs/common";
                 })
             }
         },
+        MySQLAdministracionRepository,
     ],
-    exports: ["MYSQL_CLIENT"],
+    exports: ["MYSQL_CLIENT",MySQLAdministracionRepository],
 })
-export class RedisModule {}
+export class MySQLModule {}
