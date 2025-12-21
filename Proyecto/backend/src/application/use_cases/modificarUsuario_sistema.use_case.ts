@@ -9,7 +9,6 @@ export class ModifcarUsuarioSistemaUseCase {
     constructor(private readonly _sistema: AdministracionContract) {}
 
     async execute(body: ModificarUsuarioUseCaseRequest) {
-        console.log('Body en use case:', body);
 
         
         if (!body.id || body.id.trim().length === 0) {

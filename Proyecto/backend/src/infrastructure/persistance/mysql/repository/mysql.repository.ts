@@ -127,12 +127,12 @@ export class MySQLAdministracionRepository extends AdministracionContract{
     }
 
     public async contraseniaUsuario(id: string, contrasenia: string): Promise<void> {
-        console.log(id)
-        console.log('hhasaenfinasdi')
+        
         const sql = `SELECT id FROM usuarios WHERE id = ?`;
         const params = [id];
 
         const [rows] = await this.mysql.execute(sql, params);
+        
         if (!Array.isArray(rows) || rows.length === 0) {
             throw new InvalidRequestError('Usuario no encontrado');
         }
@@ -140,9 +140,21 @@ export class MySQLAdministracionRepository extends AdministracionContract{
         const params_update = [contrasenia,id];
         const [result] = await this.mysql.execute(sql_update, params_update );
         const updateResult = result as ResultSetHeader;
-        console.log(updateResult)
+        
         if (updateResult.affectedRows === 0) {
             throw new InvalidRequestError('No se pudo actualizar la contraseña');
         }
+    }
+
+    public async autenticarUsuario(id: string): Promise<string> {
+        const sql = `SELECT id,contrasenia FROM usuarios WHERE id = ?`;
+        const params = [id];
+
+        const [rows] = await this.mysql.execute(sql, params);
+        if (!Array.isArray(rows) || rows.length === 0) {
+            throw new InvalidRequestError('Usuario no encontrado');
+        }
+
+        return rows[0]['contrasenia']
     }
 }

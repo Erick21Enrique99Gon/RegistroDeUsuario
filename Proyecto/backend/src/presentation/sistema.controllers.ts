@@ -20,6 +20,7 @@ import { ModificarUsuarioUseCaseRequest } from 'src/application/dtos/modificarUs
 import { ToggleUsuarioSistemaUseCase } from 'src/application/use_cases/toggleUsuarioStatus_sistema.use_case';
 import { ContraseniaUsuarioSistemaUseCase } from 'src/application/use_cases/contraseniaUsuario_sistema.use_case';
 import { ContraseniaUsuarioUseCaseRequest } from 'src/application/dtos/contraseniaUsuario_sistema.dto';
+import { AutenticarUsuarioSistemaUseCase } from 'src/application/use_cases/autenticarUsuario_sistema.use_case';
 @Controller('')
 export class SistemaController {
 
@@ -28,7 +29,8 @@ export class SistemaController {
         private readonly _obtenerUsuarioUsecase:ObtenerUsuarioSistemaUseCase,
         private readonly _modifcarUsuarioUseCase:ModifcarUsuarioSistemaUseCase,
         private readonly _toggleUsuarioSistemaUseCase:ToggleUsuarioSistemaUseCase,
-        private readonly _contraseniaUsuarioSistemaUseCase:ContraseniaUsuarioSistemaUseCase
+        private readonly _contraseniaUsuarioSistemaUseCase:ContraseniaUsuarioSistemaUseCase,
+        private readonly _autenticarUsuarioSistemaUseCase:AutenticarUsuarioSistemaUseCase
     ) { }
 
     @Get('health/ready')
@@ -106,9 +108,16 @@ export class SistemaController {
     }
 
     @Post('autenticarUsuario')
-    async autenticarUsuario(@Body() body) {
-        console.log(`Autenticando usuario: ${body}`);
-        return { status: 'Usuario autenticado', token: 'token-de-ejemplo' };
+    async autenticarUsuario(@Body() body: ContraseniaUsuarioUseCaseRequest) {
+        try {
+            return await this._autenticarUsuarioSistemaUseCase.execute(body);
+        } catch (e) {
+            if (e instanceof InvalidRequestError) {
+            // 400 + mensaje legible
+            throw new BadRequestException(e.message);
+            }
+            throw e;
+        }
     }
 
     @Post('listarUsuarios')

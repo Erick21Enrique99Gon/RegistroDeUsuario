@@ -11,7 +11,6 @@ export class RegistrarUsuarioSistemaUseCase {
     constructor(private readonly _sistema: AdministracionContract) {}
 
     async execute(body: RegistrarUsuarioUseCaseRequest) {
-        console.log('Body en use case:', body);
 
         // Validar nombres (obligatorio)
         if (!body.nombres || body.nombres.trim().length === 0) {
@@ -46,7 +45,6 @@ export class RegistrarUsuarioSistemaUseCase {
         if (!body.contrasenia || body.contrasenia.trim().length === 0) {
             throw new InvalidRequestError('La contraseña debe ser un hash SHA1 válido (40 caracteres hexadecimales)');
         }
-        console.log(process.env.HASH)
         body.contrasenia = await bcrypt.hash(body.contrasenia, this.saltRounds);
         // Validar sexo (obligatorio)
         if (!body.sexo || body.sexo.trim().length === 0) {
@@ -69,7 +67,7 @@ export class RegistrarUsuarioSistemaUseCase {
         }
 
         const id = 'D-' + Date.now() + '-' + Math.floor(Math.random() * 1000);        
-        console.log(id)
+        
         
         const usuario: Usuario = { 
             id: id,
