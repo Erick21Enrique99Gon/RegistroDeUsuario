@@ -26,6 +26,9 @@ import { RegistrarPasaporteSistemaUseCase } from 'src/application/use_cases/regi
 import { RegistrarPasaporteUseCaseRequest } from 'src/application/dtos/registrarPasaporte_sistema.dto';
 import { ObtenerPasaporteSistemaUseCase } from 'src/application/use_cases/obtenerPasaporte_sistema.use_case';
 import { HabilitarPasaporteUsuarioSistemaUseCase } from 'src/application/use_cases/habilitarPasaporteUsuario_sistema.use_case';
+import { ListarPasaportesSistemaUseCase } from 'src/application/use_cases/listarPasaportes.use_case';
+
+
 @Controller('')
 export class SistemaController {
 
@@ -39,7 +42,8 @@ export class SistemaController {
         private readonly _listarUsuarioSistemaUseCase:ListarUsuarioSistemaUseCase,
         private readonly _registrarPasaporteSistemaUseCase:RegistrarPasaporteSistemaUseCase,
         private readonly _obtenerPasaporteSistemaUseCase:ObtenerPasaporteSistemaUseCase,
-        private readonly _habilitarPasaporteUsuarioSistemaUseCase:HabilitarPasaporteUsuarioSistemaUseCase
+        private readonly _habilitarPasaporteUsuarioSistemaUseCase:HabilitarPasaporteUsuarioSistemaUseCase,
+        private readonly _listarPasaportesSistemaUseCase:ListarPasaportesSistemaUseCase
     ) { }
 
     @Get('health/ready')
@@ -184,10 +188,17 @@ export class SistemaController {
         }
     }
 
-    @Post('listarPasaportes')
-    async listarPasaportes(@Body() body) {
-        console.log(`Pasaportes: ${body}`);
-        return { status: 'Pasaportes', token: 'token-de-ejemplo' };
+    @Get('listarPasaportes')
+    async listarPasaportes() {
+        try {
+            return await this._listarPasaportesSistemaUseCase.execute();
+        } catch (e) {
+            if (e instanceof InvalidRequestError) {
+            // 400 + mensaje legible
+                throw new BadRequestException(e.message);
+            }
+            throw e;
+        }
     }
 
     @Post('listarPasaportesUsuario')

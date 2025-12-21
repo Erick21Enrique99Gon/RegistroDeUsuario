@@ -4,10 +4,13 @@ import { Pasaporte } from "src/domain/interfaces/sistema.interfaces";
 import { AdministracionContract } from "src/domain/contracts/administracion.contract";
 import { InvalidRequestError } from "src/domain/errors/invalid_request.error";
 import { NotFoundError } from "src/domain/errors/not_found.error";
-
+import { HabilitarPasaporteUsuarioSistemaUseCase } from "./habilitarPasaporteUsuario_sistema.use_case";
 @Injectable()
 export class RegistrarPasaporteSistemaUseCase {
-    constructor(private readonly administracionRepository: AdministracionContract) {}
+    constructor(
+        private readonly administracionRepository: AdministracionContract,
+        private readonly habilitarPasaporteUsuarioSistemaUseCase:HabilitarPasaporteUsuarioSistemaUseCase
+    ) {}
 
     async execute(body: RegistrarPasaporteUseCaseRequest) {
         // Validaciones de negocio
@@ -62,6 +65,7 @@ export class RegistrarPasaporteSistemaUseCase {
 
         // Delegar al repositorio
         await this.administracionRepository.registrarPasaporte(pasaporte);
+        await this.habilitarPasaporteUsuarioSistemaUseCase.execute(pasaporte.id_usuario,pasaporte.numero_de_pasaporte,pasaporte.lugar)
         return { ok: true };
     }
 

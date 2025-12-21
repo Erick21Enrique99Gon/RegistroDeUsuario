@@ -236,7 +236,6 @@ export class MySQLAdministracionRepository extends AdministracionContract{
             `CALL habilitar_pasaporte(?, ?, ?)`,
             [id_usuario, numero_de_pasaporte, lugar]
         ) as any;
-        
 
         const resultado = rows[0][0]?.resultado;
         
@@ -244,6 +243,23 @@ export class MySQLAdministracionRepository extends AdministracionContract{
             throw new InvalidRequestError(resultado);
         }
 
+    }
+
+    public async listarPasaportes(): Promise<Pasaporte[]> {
+        const sql = `SELECT * FROM pasaporte `;
+        const [rows, _ ]: [any[], any] = await this.mysql.query(sql);
+        return rows.map((row: any): Pasaporte => {
+            return {
+                id_usuario:row.id_usuario,
+                tipo_de_pasaporte:row.tipo_de_pasaporte,
+                fecha_de_emision:row.fecha_de_emision,
+                fecha_de_vencimiento:row.fecha_de_vencimiento,
+                lugar:row.lugar,
+                pais_de_emision:row.pais_de_emision,
+                numero_de_pasaporte:row.numero_de_pasaporte,
+                habilitado:row.habilitado
+            };
+        });
     }
 
 }
