@@ -220,4 +220,15 @@ export class MySQLAdministracionRepository extends AdministracionContract{
         }
     }
 
+    public async obtenerPasaporte(id_usuario: string, numero_de_pasaporte: string,lugar:string): Promise<Pasaporte> {
+        const sql = `SELECT * FROM pasaporte WHERE id_usuario = ? and numero_de_pasaporte  = ? and lugar  = ? `;
+        const params = [id_usuario,numero_de_pasaporte,lugar];
+        const [rows] = await this.mysql.execute(sql, params);
+        const pasaporte = rows[0] as any;
+        console.log(pasaporte)
+        return {
+            ... pasaporte
+        } as Pasaporte
+    }
+
 }

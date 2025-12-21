@@ -24,6 +24,7 @@ import { AutenticarUsuarioSistemaUseCase } from 'src/application/use_cases/auten
 import { ListarUsuarioSistemaUseCase } from 'src/application/use_cases/listarUsuario_sistema.use_case';
 import { RegistrarPasaporteSistemaUseCase } from 'src/application/use_cases/registrarPasaporte_sistema.use_case';
 import { RegistrarPasaporteUseCaseRequest } from 'src/application/dtos/registrarPasaporte_sistema.dto';
+import { ObtenerPasaporteSistemaUseCase } from 'src/application/use_cases/obtenerPasaporte_sistema.use_case';
 @Controller('')
 export class SistemaController {
 
@@ -35,7 +36,8 @@ export class SistemaController {
         private readonly _contraseniaUsuarioSistemaUseCase:ContraseniaUsuarioSistemaUseCase,
         private readonly _autenticarUsuarioSistemaUseCase:AutenticarUsuarioSistemaUseCase,
         private readonly _listarUsuarioSistemaUseCase:ListarUsuarioSistemaUseCase,
-        private readonly _registrarPasaporteSistemaUseCase:RegistrarPasaporteSistemaUseCase
+        private readonly _registrarPasaporteSistemaUseCase:RegistrarPasaporteSistemaUseCase,
+        private readonly _obtenerPasaporteSistemaUseCase:ObtenerPasaporteSistemaUseCase
     ) { }
 
     @Get('health/ready')
@@ -154,10 +156,17 @@ export class SistemaController {
         }
     }
 
-    @Get('obtenerPasaporte/:usuarioId/:pasaporteId')
-    async obtenerPasaporte(@Param('id') id: string) {
-        console.log(`Obteniendo pasaporte con ID: ${id}`);
-        return { id, nombre: 'pasaporte de ejemplo' };
+    @Get('obtenerPasaporte/:usuarioId/:pasaporte/:lugar')
+    async obtenerPasaporte(@Param('usuarioId') usuarioId: string,@Param('pasaporte') pasaporte: string,@Param('lugar') lugar: string) {
+        try {
+            return await this._obtenerPasaporteSistemaUseCase.execute(usuarioId,pasaporte,lugar)
+        } catch (e) {
+            if (e instanceof InvalidRequestError) {
+            // 400 + mensaje legible
+            throw new BadRequestException(e.message);
+            }
+            throw e;
+        }
     }
 
     @Post('habilitarPasaporteUsuario/:usuarioId/:pasaporteId')

@@ -11,6 +11,7 @@ import { ContraseniaUsuarioSistemaUseCase } from "src/application/use_cases/cont
 import { AutenticarUsuarioSistemaUseCase } from "src/application/use_cases/autenticarUsuario_sistema.use_case";
 import { ListarUsuarioSistemaUseCase } from "src/application/use_cases/listarUsuario_sistema.use_case";
 import { RegistrarPasaporteSistemaUseCase } from "src/application/use_cases/registrarPasaporte_sistema.use_case";
+import { ObtenerPasaporteSistemaUseCase } from "src/application/use_cases/obtenerPasaporte_sistema.use_case";
 @Module({
     imports: [MySQLModule],
     controllers: [SistemaController],
@@ -23,6 +24,7 @@ import { RegistrarPasaporteSistemaUseCase } from "src/application/use_cases/regi
         AutenticarUsuarioSistemaUseCase,
         ListarUsuarioSistemaUseCase,
         RegistrarPasaporteSistemaUseCase,
+        ObtenerPasaporteSistemaUseCase,
         {
             provide:AdministracionContract,
             useClass:MySQLAdministracionRepository
