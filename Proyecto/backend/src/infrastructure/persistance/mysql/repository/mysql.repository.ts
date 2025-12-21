@@ -2,7 +2,7 @@ import { Inject, Injectable } from "@nestjs/common";
 import { Usuario,Pasaporte } from "src/domain/interfaces/sistema.interfaces";
 import { AdministracionContract } from "src/domain/contracts/administracion.contract";
 import { InvalidRequestError } from "src/domain/errors/invalid_request.error";
-import type {Pool} from 'mysql2/promise';
+import type {Pool,ResultSetHeader} from 'mysql2/promise';
 
 @Injectable()
 export class MySQLAdministracionRepository extends AdministracionContract{
@@ -123,6 +123,26 @@ export class MySQLAdministracionRepository extends AdministracionContract{
                 return; // Éxito: habilitado o deshabilitado
             default:
                 throw new InvalidRequestError('Error inesperado en base de datos');
+        }
+    }
+
+    public async contraseniaUsuario(id: string, contrasenia: string): Promise<void> {
+        console.log(id)
+        console.log('hhasaenfinasdi')
+        const sql = `SELECT id FROM usuarios WHERE id = ?`;
+        const params = [id];
+
+        const [rows] = await this.mysql.execute(sql, params);
+        if (!Array.isArray(rows) || rows.length === 0) {
+            throw new InvalidRequestError('Usuario no encontrado');
+        }
+        const sql_update = `UPDATE usuarios SET contrasenia = ? WHERE id = ?`;
+        const params_update = [contrasenia,id];
+        const [result] = await this.mysql.execute(sql_update, params_update );
+        const updateResult = result as ResultSetHeader;
+        console.log(updateResult)
+        if (updateResult.affectedRows === 0) {
+            throw new InvalidRequestError('No se pudo actualizar la contraseña');
         }
     }
 }

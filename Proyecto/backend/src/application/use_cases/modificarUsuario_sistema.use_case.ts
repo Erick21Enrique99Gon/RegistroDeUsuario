@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { ModificarUsuarioUseCaseRequest } from "../dtos/modificarUsuario_sisteam.dto";
+import { ModificarUsuarioUseCaseRequest } from "../dtos/modificarUsuario_sistema.dto";
 import { AdministracionContract } from "src/domain/contracts/administracion.contract";
 import { InvalidRequestError } from "src/domain/errors/invalid_request.error";
 import { Usuario } from "src/domain/interfaces/sistema.interfaces";

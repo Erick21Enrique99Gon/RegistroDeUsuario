@@ -16,8 +16,10 @@ import { RegistrarUsuarioUseCaseRequest } from 'src/application/dtos/registrarUs
 import { RegistrarUsuarioSistemaUseCase } from 'src/application/use_cases/registrarUsuario_sistema.use_case';
 import { ObtenerUsuarioSistemaUseCase } from 'src/application/use_cases/obtenerUsuario_sistema.use_case';
 import { ModifcarUsuarioSistemaUseCase } from 'src/application/use_cases/modificarUsuario_sistema.use_case';
-import { ModificarUsuarioUseCaseRequest } from 'src/application/dtos/modificarUsuario_sisteam.dto';
+import { ModificarUsuarioUseCaseRequest } from 'src/application/dtos/modificarUsuario_sistema.dto';
 import { ToggleUsuarioSistemaUseCase } from 'src/application/use_cases/toggleUsuarioStatus_sistema.use_case';
+import { ContraseniaUsuarioSistemaUseCase } from 'src/application/use_cases/contraseniaUsuario_sistema.use_case';
+import { ContraseniaUsuarioUseCaseRequest } from 'src/application/dtos/contraseniaUsuario_sistema.dto';
 @Controller('')
 export class SistemaController {
 
@@ -25,7 +27,8 @@ export class SistemaController {
         private readonly _registrarUsuarioUseCase:RegistrarUsuarioSistemaUseCase,
         private readonly _obtenerUsuarioUsecase:ObtenerUsuarioSistemaUseCase,
         private readonly _modifcarUsuarioUseCase:ModifcarUsuarioSistemaUseCase,
-        private readonly _toggleUsuarioSistemaUseCase:ToggleUsuarioSistemaUseCase
+        private readonly _toggleUsuarioSistemaUseCase:ToggleUsuarioSistemaUseCase,
+        private readonly _contraseniaUsuarioSistemaUseCase:ContraseniaUsuarioSistemaUseCase
     ) { }
 
     @Get('health/ready')
@@ -89,12 +92,17 @@ export class SistemaController {
         }
     }
 
-    @Post('/contraseniaUsuario/:id') 
-    async contraseniaUsuario(@Param('id') id: string) {
-        console.log(`toggling status usuario con ID: ${id}`);
-        
-        const nuevoStatus = 'Usuario toggled'; 
-        return { status: nuevoStatus };
+    @Post('/contraseniaUsuario') 
+    async contraseniaUsuario(@Body() body: ContraseniaUsuarioUseCaseRequest) {
+        try {
+            return await this._contraseniaUsuarioSistemaUseCase.execute(body);
+        } catch (e) {
+            if (e instanceof InvalidRequestError) {
+            // 400 + mensaje legible
+            throw new BadRequestException(e.message);
+            }
+            throw e;
+        }
     }
 
     @Post('autenticarUsuario')

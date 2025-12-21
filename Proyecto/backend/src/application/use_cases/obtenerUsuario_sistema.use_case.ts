@@ -7,7 +7,7 @@ export class ObtenerUsuarioSistemaUseCase{
     constructor(private readonly _sistema: AdministracionContract) {}
 
     async execute(id: string){
-        console.log(id)
+        
         if (!id || id.trim().length === 0) {
             throw new InvalidRequestError('El identificador es necesarios');
         }
