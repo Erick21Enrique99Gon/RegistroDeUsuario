@@ -43,6 +43,13 @@ export class SistemaController {
         console.log(`deshabilitando usuario con ID: ${id}`);
         return { status: 'Usuario deshabilitado' };
     }
+
+    @Post('habilitarUsuario/:id')
+    async habilitarUsuario(@Param('id') id: string) {
+        console.log(`habilitando usuario con ID: ${id}`);
+        return { status: 'Usuario habilitado' };
+    }
+
     @Post('autenticarUsuario')
     async autenticarUsuario(@Body() body) {
         console.log(`Autenticando usuario: ${body}`);
@@ -61,34 +68,40 @@ export class SistemaController {
         return { status: 'Pasaporte registrado' };
     }
 
-    @Get('obtenerPasaporte/:id')
+    @Get('obtenerPasaporte/:usuarioId/:pasaporteId')
     async obtenerPasaporte(@Param('id') id: string) {
         console.log(`Obteniendo pasaporte con ID: ${id}`);
         return { id, nombre: 'pasaporte de ejemplo' };
     }
 
-    @Post('asignarPasaporteUsuario/:usuarioId/:pasaporteId')
-    async asignarPasaporteUsuario(
+    @Post('habilitarPasaporteUsuario/:usuarioId/:pasaporteId')
+    async habilitarPasaporteUsuario(
         @Param('usuarioId') usuarioId: string,
         @Param('pasaporteId') pasaporteId: string,
     ) {
-        console.log(`Asignando pasaporte ${pasaporteId} al usuario ${usuarioId}`);
-        return { status: 'Pasaporte asignado al usuario' };
+        console.log(`habilitar pasaporte ${pasaporteId} con usuario ${usuarioId}`);
+        return { status: 'Pasaporte habilitar de usuario' };
     }
 
-    @Post('desasignarPasaporteUsuario/:usuarioId/:pasaporteId')
-    async desasignarPasaporteUsuario(
+    @Post('deshabilitarPasaporteUsuario/:usuarioId/:pasaporteId')
+    async deshabilitarPasaporteUsuario(
         @Param('usuarioId') usuarioId: string,
         @Param('pasaporteId') pasaporteId: string,
     ) {
-        console.log(`Asignando pasaporte ${pasaporteId} al usuario ${usuarioId}`);
-        return { status: 'Pasaporte asignado al usuario' };
+        console.log(`deshabilitar pasaporte ${pasaporteId} con usuario ${usuarioId}`);
+        return { status: 'Pasaporte deshabilitar de usuario' };
     }
 
     @Post('listarPasaportes')
     async listarPasaportes(@Body() body) {
         console.log(`Pasaportes: ${body}`);
         return { status: 'Pasaportes', token: 'token-de-ejemplo' };
+    }
+
+    @Post('listarPasaportesUsuario')
+    async listarPasaportesUsuario(@Body() body) {
+        console.log(`Pasaportes de usuario: ${body}`);
+        return { status: 'Pasaportes de usuario', token: 'token-de-ejemplo' };
     }
 
 

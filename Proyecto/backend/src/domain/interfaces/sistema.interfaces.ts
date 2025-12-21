@@ -1,4 +1,4 @@
-export interface usuario{
+export interface Usuario{
     id: string;
     correo_electronico:string;
     telefono:string;
@@ -13,7 +13,7 @@ export interface usuario{
     habilitado:boolean;
 }
 
-export interface pasaporte{
+export interface Pasaporte{
     id_usuario:string;
     tipo_de_pasaporte:string;
     fecha_de_emision:Date;
