@@ -225,10 +225,25 @@ export class MySQLAdministracionRepository extends AdministracionContract{
         const params = [id_usuario,numero_de_pasaporte,lugar];
         const [rows] = await this.mysql.execute(sql, params);
         const pasaporte = rows[0] as any;
-        console.log(pasaporte)
         return {
             ... pasaporte
         } as Pasaporte
+    }
+
+    public async habilitarPasaporteUsuario(id_usuario: string, numero_de_pasaporte: string, lugar: string): Promise<void> {
+
+        const [rows] = await this.mysql.execute(
+            `CALL habilitar_pasaporte(?, ?, ?)`,
+            [id_usuario, numero_de_pasaporte, lugar]
+        ) as any;
+        
+
+        const resultado = rows[0][0]?.resultado;
+        
+        if (resultado.startsWith('ERROR_')) {
+            throw new InvalidRequestError(resultado);
+        }
+
     }
 
 }

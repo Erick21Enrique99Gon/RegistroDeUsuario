@@ -261,67 +261,64 @@ BEGIN
 END$$
 DELIMITER ;
 
--- 5. CAMBIAR ESTADO PASAPORTE
+-- 5. Habilitar solo un pasaport
+
 DELIMITER $$
-DROP PROCEDURE IF EXISTS cambiar_estado_pasaporte_habilitado$$
-CREATE PROCEDURE cambiar_estado_pasaporte_habilitado(
+
+DROP PROCEDURE IF EXISTS habilitar_pasaporte$$
+
+CREATE PROCEDURE habilitar_pasaporte(
+    IN p_id_usuario VARCHAR(50),
     IN p_numero_pasaporte VARCHAR(50),
-    IN p_habilitado BOOLEAN
+    IN p_lugar VARCHAR(255)
 )
 MODIFIES SQL DATA
 BEGIN
+    DECLARE pasaporte_existe INT DEFAULT 0;
     DECLARE filas_afectadas INT DEFAULT 0;
-    DECLARE id_usuario_actual VARCHAR(50);
-    DECLARE otros_habilitados INT DEFAULT 0;
 
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
     BEGIN
-        GET DIAGNOSTICS CONDITION 1
-        @sqlstate = RETURNED_SQLSTATE,
-        @errno = MYSQL_ERRNO,
-        @text = MESSAGE_TEXT;
-        SELECT CONCAT('ERROR_DB_', @errno, ': ', @text) as resultado;
+        ROLLBACK;
+        SELECT 'ERROR_INTERNO: No se pudo completar la operación' AS resultado;
     END;
 
-    SELECT COUNT(*), id_usuario
-    INTO filas_afectadas, id_usuario_actual
+    START TRANSACTION;
+
+    -- 1. Verificar que el pasaporte existe (LOCK)
+    SELECT COUNT(*) INTO pasaporte_existe
     FROM pasaporte
-    WHERE numero_de_pasaporte = p_numero_pasaporte;
+    WHERE id_usuario = p_id_usuario
+      AND numero_de_pasaporte = p_numero_pasaporte
+      AND lugar = p_lugar
+    FOR UPDATE;
 
-    IF filas_afectadas = 0 THEN
-        SELECT 'ERROR_PASAPORTE_INEXISTENTE: Pasaporte no encontrado' as resultado;
-    ELSEIF NOT p_habilitado THEN
-        UPDATE pasaporte SET habilitado = FALSE
-        WHERE numero_de_pasaporte = p_numero_pasaporte;
-
-        IF ROW_COUNT() > 0 THEN
-            SELECT 'SUCCESS_DESACTIVADO' as resultado;
-        ELSE
-            SELECT 'ERROR_PASAPORTE_MODIFICADO: Pasaporte fue modificado por otro proceso' as resultado;
-        END IF;
+    IF pasaporte_existe = 0 THEN
+        ROLLBACK;
+        SELECT 'ERROR_PASAPORTE_INEXISTENTE: Pasaporte no encontrado' AS resultado;
     ELSE
-        SELECT COUNT(*)
-        INTO otros_habilitados
-        FROM pasaporte
-        WHERE id_usuario = id_usuario_actual
-        AND habilitado = TRUE
-        AND numero_de_pasaporte != p_numero_pasaporte;
+        -- 2. ✅ AUTO-DESHABILITAR TODOS los otros y habilitar este
+        UPDATE pasaporte SET habilitado = FALSE WHERE id_usuario = p_id_usuario;
+        SET filas_afectadas = ROW_COUNT();
 
-        IF otros_habilitados > 0 THEN
-            SELECT 'ERROR_PASAPORTE_YA_HABILITADO: Ya existe otro pasaporte habilitado para este usuario' as resultado;
+        UPDATE pasaporte SET habilitado = TRUE 
+        WHERE id_usuario = p_id_usuario
+          AND numero_de_pasaporte = p_numero_pasaporte
+          AND lugar = p_lugar;
+        SET filas_afectadas = filas_afectadas + ROW_COUNT();
+
+        IF filas_afectadas > 0 THEN
+            COMMIT;
+            SELECT 'SUCCESS_HABILITADO: Pasaporte habilitado (otros desactivados automáticamente)' AS resultado;
         ELSE
-            UPDATE pasaporte SET habilitado = TRUE
-            WHERE numero_de_pasaporte = p_numero_pasaporte;
-
-            IF ROW_COUNT() > 0 THEN
-                SELECT 'SUCCESS_ACTIVADO' as resultado;
-            ELSE
-                SELECT 'ERROR_PASAPORTE_MODIFICADO: Pasaporte fue modificado por otro proceso' as resultado;
-            END IF;
+            ROLLBACK;
+            SELECT 'ERROR_PASAPORTE_MODIFICADO: Pasaporte fue modificado por otro proceso' AS resultado;
         END IF;
     END IF;
 END$$
+
 DELIMITER ;
+
 
 INSERT INTO pais (nombre) VALUES ('Afghanistan');
 INSERT INTO pais (nombre) VALUES ('Albania');
