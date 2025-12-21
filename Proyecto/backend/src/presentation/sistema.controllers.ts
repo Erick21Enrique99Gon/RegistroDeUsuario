@@ -17,14 +17,15 @@ import { RegistrarUsuarioSistemaUseCase } from 'src/application/use_cases/regist
 import { ObtenerUsuarioSistemaUseCase } from 'src/application/use_cases/obtenerUsuario_sistema.use_case';
 import { ModifcarUsuarioSistemaUseCase } from 'src/application/use_cases/modificarUsuario_sistema.use_case';
 import { ModificarUsuarioUseCaseRequest } from 'src/application/dtos/modificarUsuario_sisteam.dto';
-
+import { ToggleUsuarioSistemaUseCase } from 'src/application/use_cases/toggleUsuarioStatus_sistema.use_case';
 @Controller('')
 export class SistemaController {
 
     constructor(
         private readonly _registrarUsuarioUseCase:RegistrarUsuarioSistemaUseCase,
         private readonly _obtenerUsuarioUsecase:ObtenerUsuarioSistemaUseCase,
-        private readonly _modifcarUsuarioUseCase:ModifcarUsuarioSistemaUseCase
+        private readonly _modifcarUsuarioUseCase:ModifcarUsuarioSistemaUseCase,
+        private readonly _toggleUsuarioSistemaUseCase:ToggleUsuarioSistemaUseCase
     ) { }
 
     @Get('health/ready')
@@ -75,16 +76,25 @@ export class SistemaController {
         }
     }
 
-    @Post('deshabilitarUsuario/:id')
-    async deshabilitarUsuario(@Param('id') id: string) {
-        console.log(`deshabilitando usuario con ID: ${id}`);
-        return { status: 'Usuario deshabilitado' };
+    @Post('/status/:id') 
+    async toggleUsuarioStatus(@Param('id') id: string) {
+        try {
+            return await this._toggleUsuarioSistemaUseCase.execute(id);
+        } catch (e) {
+            if (e instanceof InvalidRequestError) {
+            // 400 + mensaje legible
+            throw new BadRequestException(e.message);
+            }
+            throw e;
+        }
     }
 
-    @Post('habilitarUsuario/:id')
-    async habilitarUsuario(@Param('id') id: string) {
-        console.log(`habilitando usuario con ID: ${id}`);
-        return { status: 'Usuario habilitado' };
+    @Post('/contraseniaUsuario/:id') 
+    async contraseniaUsuario(@Param('id') id: string) {
+        console.log(`toggling status usuario con ID: ${id}`);
+        
+        const nuevoStatus = 'Usuario toggled'; 
+        return { status: nuevoStatus };
     }
 
     @Post('autenticarUsuario')

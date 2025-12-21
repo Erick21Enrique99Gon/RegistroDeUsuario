@@ -6,6 +6,7 @@ import { MySQLAdministracionRepository } from "./persistance/mysql/repository/my
 import { RegistrarUsuarioSistemaUseCase } from "src/application/use_cases/registrarUsuario_sistema.use_case";
 import { ObtenerUsuarioSistemaUseCase } from "src/application/use_cases/obtenerUsuario_sistema.use_case";
 import { ModifcarUsuarioSistemaUseCase } from "src/application/use_cases/modificarUsuario_sistema.use_case";
+import { ToggleUsuarioSistemaUseCase } from "src/application/use_cases/toggleUsuarioStatus_sistema.use_case";
 @Module({
     imports: [MySQLModule],
     controllers: [SistemaController],
@@ -13,6 +14,7 @@ import { ModifcarUsuarioSistemaUseCase } from "src/application/use_cases/modific
         RegistrarUsuarioSistemaUseCase,
         ObtenerUsuarioSistemaUseCase,
         ModifcarUsuarioSistemaUseCase,
+        ToggleUsuarioSistemaUseCase,
         {
             provide:AdministracionContract,
             useClass:MySQLAdministracionRepository

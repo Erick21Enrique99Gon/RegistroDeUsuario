@@ -101,4 +101,28 @@ export class MySQLAdministracionRepository extends AdministracionContract{
         }
     }
 
+    public async toggleUsuarioStatus(id: string): Promise<void> {
+        const sql = `CALL toggle_estado_usuario(?)`;
+        const params = [id];
+
+        const [result] = await this.mysql.execute(sql, params) as any;
+        const mensaje = result[0][0]?.resultado || 'UNKNOWN';
+
+        switch (true) {
+            case mensaje.includes('ERROR_REFERENCIA_ACTIVA'):
+                throw new InvalidRequestError('Usuario tiene registros dependientes');
+            case mensaje.includes('ERROR_CAMPO_NULL'):
+                throw new InvalidRequestError('Campo requerido vacío');
+            case mensaje.includes('ERROR_USUARIO_INEXISTENTE'):
+                throw new InvalidRequestError('Usuario no encontrado');
+            case mensaje.includes('ERROR_USUARIO_MODIFICADO'):
+                throw new InvalidRequestError('Usuario fue modificado por otro proceso');
+            case mensaje.includes('ERROR_DB_'):
+                throw new InvalidRequestError('Error de base de datos');
+            case mensaje.startsWith('SUCCESS_TOGGLE_'):
+                return; // Éxito: habilitado o deshabilitado
+            default:
+                throw new InvalidRequestError('Error inesperado en base de datos');
+        }
+    }
 }

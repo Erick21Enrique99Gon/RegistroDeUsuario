@@ -3,7 +3,6 @@ import { ModificarUsuarioUseCaseRequest } from "../dtos/modificarUsuario_sisteam
 import { AdministracionContract } from "src/domain/contracts/administracion.contract";
 import { InvalidRequestError } from "src/domain/errors/invalid_request.error";
 import { Usuario } from "src/domain/interfaces/sistema.interfaces";
-import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class ModifcarUsuarioSistemaUseCase {

@@ -149,15 +149,15 @@ DELIMITER ;
 
 -- 3. CAMBIAR ESTADO USUARIO
 DELIMITER $$
-DROP PROCEDURE IF EXISTS cambiar_estado_usuario$$
-CREATE PROCEDURE cambiar_estado_usuario(
-    IN p_id VARCHAR(50),
-    IN p_habilitado BOOLEAN
+DROP PROCEDURE IF EXISTS toggle_estado_usuario$$
+CREATE PROCEDURE toggle_estado_usuario(
+    IN p_id VARCHAR(50)
 )
 MODIFIES SQL DATA
 BEGIN
     DECLARE filas_afectadas INT DEFAULT 0;
     DECLARE estado_actual BOOLEAN;
+    DECLARE nuevo_estado BOOLEAN;
 
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
     BEGIN
@@ -180,18 +180,17 @@ BEGIN
 
     IF filas_afectadas = 0 THEN
         SELECT 'ERROR_USUARIO_INEXISTENTE: Usuario no encontrado' as resultado;
-    ELSEIF estado_actual = p_habilitado THEN
-        SELECT CONCAT('INFO_YA_ESTABA: Usuario ya esta ',
-                     IF(p_habilitado, 'habilitado', 'deshabilitado')) as resultado;
     ELSE
+        SET nuevo_estado = NOT estado_actual;  -- Toggle automático
+        
         UPDATE usuarios
-        SET habilitado = p_habilitado
+        SET habilitado = nuevo_estado
         WHERE id = p_id;
 
         IF ROW_COUNT() = 0 THEN
             SELECT 'ERROR_USUARIO_MODIFICADO: Usuario fue modificado por otro proceso' as resultado;
         ELSE
-            SELECT IF(p_habilitado, 'SUCCESS_HABILITADO', 'SUCCESS_DESHABILITADO') as resultado;
+            SELECT CONCAT('SUCCESS_TOGGLE_', IF(nuevo_estado, 'HABILITADO', 'DESHABILITADO')) as resultado;
         END IF;
     END IF;
 END$$
