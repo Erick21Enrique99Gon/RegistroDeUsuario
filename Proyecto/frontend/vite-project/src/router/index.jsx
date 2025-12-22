@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from "r
 import Login from "../pages/Login/Login";
 import Register from "../pages/Registro/Register";
 import ModificarUsuario from "../pages/Modificar/Modifiad";
+import ListarPasaportes from "../pages/PasaportesUsuario/PasaporteUsuario";
 
 import { getCookie } from "../utils/cookies";
 const AppRouter = () => {
@@ -10,7 +11,8 @@ const AppRouter = () => {
       <Routes>
         <Route path="/login" element={<Login/>} />
         <Route path="/register" element={<Register/>} />
-        <Route path="/modifaid" element={<ModificarUsuario/>} />
+        <Route path="/modified" element={<ModificarUsuario/>} />
+        <Route path="/mispasaportes" element={<ListarPasaportes/>} />
         {/* <Route path="/" element={<SidebarLayout />}>
           <Route index element={<Dashboard />} />
           <Route path="clientes" element={<Clientes />} />

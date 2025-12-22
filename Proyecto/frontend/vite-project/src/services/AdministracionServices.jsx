@@ -77,6 +77,7 @@ export const listarPaises = async () => {
 
 export const modificarUsuario = async (formData) => {
   const payload = {
+    id: formData.id,
     correo_electronico: formData.correo_electronico,
     telefono: formData.telefono,
     nombres: formData.nombres,
@@ -106,6 +107,43 @@ export const modificarUsuario = async (formData) => {
     return data;
   } catch (err) {
     console.error('Error en registrarUsuario:', err);
+    throw err;
+  }
+};
+
+export const listarPasaportesUsuario = async (id) => {
+  try {
+    const res = await fetch(`api/listarPasaportesUsuario/${id}`, {
+      method: 'POST', // Cambiar a GET para consulta
+      credentials: 'include', // Para enviar cookies de autenticación
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) throw new Error('Error al listar pasaportes');
+    return data;
+  } catch (err) {
+    console.error('Error en listarPasaportesUsuario:', err);
+    throw err;
+  }
+};
+
+export const contraseniaUsuario = async (id, contrasenia) => {
+  try {
+    const payload = { id, contrasenia };
+    console.log(payload)
+    const res = await fetch(`/api/contraseniaUsuario}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) throw new Error('Error al listar pasaportes');
+    return data;
+  } catch (err) {
+    console.error('Error en contraseniaUsuario:', err);
     throw err;
   }
 };
