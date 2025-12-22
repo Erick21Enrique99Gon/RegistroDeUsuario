@@ -1,5 +1,5 @@
 import { Inject, Injectable } from "@nestjs/common";
-import { Usuario,Pasaporte } from "src/domain/interfaces/sistema.interfaces";
+import { Usuario,Pasaporte, Pais } from "src/domain/interfaces/sistema.interfaces";
 import { AdministracionContract } from "src/domain/contracts/administracion.contract";
 import { InvalidRequestError } from "src/domain/errors/invalid_request.error";
 import {raw, type Pool,type ResultSetHeader} from 'mysql2/promise';
@@ -258,6 +258,36 @@ export class MySQLAdministracionRepository extends AdministracionContract{
                 pais_de_emision:row.pais_de_emision,
                 numero_de_pasaporte:row.numero_de_pasaporte,
                 habilitado:row.habilitado
+            };
+        });
+    }
+
+    public async listarPasaportesUsuario(id_usuario: string): Promise<Pasaporte[]> {
+        const sql = `SELECT * FROM pasaporte where id_usuario = ? `;
+        const params = [id_usuario];
+        const [rows, _ ]: [any[], any] = await this.mysql.query(sql,params);
+        return rows.map((row: any): Pasaporte => {
+            return {
+                id_usuario:row.id_usuario,
+                tipo_de_pasaporte:row.tipo_de_pasaporte,
+                fecha_de_emision:row.fecha_de_emision,
+                fecha_de_vencimiento:row.fecha_de_vencimiento,
+                lugar:row.lugar,
+                pais_de_emision:row.pais_de_emision,
+                numero_de_pasaporte:row.numero_de_pasaporte,
+                habilitado:row.habilitado
+            };
+        });
+        
+    }
+
+    public async listarPaises(): Promise<Pais[]> {
+        const sql = `SELECT * FROM pais `;
+        const [rows, _ ]: [any[], any] = await this.mysql.query(sql);
+        return rows.map((row:any): Pais=>{
+            return {
+                id:row.id,
+                nombre:row.nombre
             };
         });
     }

@@ -14,6 +14,8 @@ import { RegistrarPasaporteSistemaUseCase } from "src/application/use_cases/regi
 import { ObtenerPasaporteSistemaUseCase } from "src/application/use_cases/obtenerPasaporte_sistema.use_case";
 import { HabilitarPasaporteUsuarioSistemaUseCase } from "src/application/use_cases/habilitarPasaporteUsuario_sistema.use_case";
 import { ListarPasaportesSistemaUseCase } from "src/application/use_cases/listarPasaportes.use_case";
+import { ListarPasaportesUsuarioSistemaUseCase } from "src/application/use_cases/listarPasaportesUsuario.use_case";
+import { ListarPaisesSistemaUseCase } from "src/application/use_cases/listarPaises_sisstema.use_case";
 @Module({
     imports: [MySQLModule],
     controllers: [SistemaController],
@@ -29,6 +31,8 @@ import { ListarPasaportesSistemaUseCase } from "src/application/use_cases/listar
         ObtenerPasaporteSistemaUseCase,
         HabilitarPasaporteUsuarioSistemaUseCase,
         ListarPasaportesSistemaUseCase,
+        ListarPasaportesUsuarioSistemaUseCase,
+        ListarPaisesSistemaUseCase,
         {
             provide:AdministracionContract,
             useClass:MySQLAdministracionRepository

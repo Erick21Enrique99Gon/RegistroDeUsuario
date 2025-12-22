@@ -23,3 +23,8 @@ export interface Pasaporte{
     numero_de_pasaporte:string;
     habilitado:boolean;
 }
+
+export interface Pais{
+    id:number;
+    nombre:string;
+}

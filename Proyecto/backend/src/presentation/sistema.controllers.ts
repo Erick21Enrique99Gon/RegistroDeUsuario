@@ -27,7 +27,8 @@ import { RegistrarPasaporteUseCaseRequest } from 'src/application/dtos/registrar
 import { ObtenerPasaporteSistemaUseCase } from 'src/application/use_cases/obtenerPasaporte_sistema.use_case';
 import { HabilitarPasaporteUsuarioSistemaUseCase } from 'src/application/use_cases/habilitarPasaporteUsuario_sistema.use_case';
 import { ListarPasaportesSistemaUseCase } from 'src/application/use_cases/listarPasaportes.use_case';
-
+import { ListarPaisesSistemaUseCase } from 'src/application/use_cases/listarPaises_sisstema.use_case';
+import { ListarPasaportesUsuarioSistemaUseCase } from 'src/application/use_cases/listarPasaportesUsuario.use_case';
 
 @Controller('')
 export class SistemaController {
@@ -43,7 +44,9 @@ export class SistemaController {
         private readonly _registrarPasaporteSistemaUseCase:RegistrarPasaporteSistemaUseCase,
         private readonly _obtenerPasaporteSistemaUseCase:ObtenerPasaporteSistemaUseCase,
         private readonly _habilitarPasaporteUsuarioSistemaUseCase:HabilitarPasaporteUsuarioSistemaUseCase,
-        private readonly _listarPasaportesSistemaUseCase:ListarPasaportesSistemaUseCase
+        private readonly _listarPasaportesSistemaUseCase:ListarPasaportesSistemaUseCase,
+        private readonly _listarPaisesSistemaUseCase:ListarPaisesSistemaUseCase,
+        private readonly _listarPasaportesUsuarioSistemaUseCase:ListarPasaportesUsuarioSistemaUseCase
     ) { }
 
     @Get('health/ready')
@@ -201,16 +204,30 @@ export class SistemaController {
         }
     }
 
-    @Post('listarPasaportesUsuario')
-    async listarPasaportesUsuario(@Body() body) {
-        console.log(`Pasaportes de usuario: ${body}`);
-        return { status: 'Pasaportes de usuario', token: 'token-de-ejemplo' };
+    @Post('listarPasaportesUsuario/:usuarioId')
+    async listarPasaportesUsuario(@Param('usuarioId') usuarioId: string) {
+        try {
+            return await this._listarPasaportesUsuarioSistemaUseCase.execute(usuarioId);
+        } catch (e) {
+            if (e instanceof InvalidRequestError) {
+            // 400 + mensaje legible
+                throw new BadRequestException(e.message);
+            }
+            throw e;
+        }
     }
 
-    @Post('listarPaises')
-    async listarPaise(@Body() body) {
-        console.log(`Paises: ${body}`);
-        return { status: 'Paises', token: 'token-de-ejemplo' };
+    @Get('listarPaises')
+    async listarPaise() {
+        try {
+            return await this._listarPaisesSistemaUseCase.execute();
+        } catch (e) {
+            if (e instanceof InvalidRequestError) {
+            // 400 + mensaje legible
+                throw new BadRequestException(e.message);
+            }
+            throw e;
+        }
     }
 
 }
