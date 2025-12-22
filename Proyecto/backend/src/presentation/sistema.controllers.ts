@@ -30,7 +30,7 @@ import { ListarPasaportesSistemaUseCase } from 'src/application/use_cases/listar
 import { ListarPaisesSistemaUseCase } from 'src/application/use_cases/listarPaises_sisstema.use_case';
 import { ListarPasaportesUsuarioSistemaUseCase } from 'src/application/use_cases/listarPasaportesUsuario.use_case';
 
-@Controller('')
+@Controller('api/')
 export class SistemaController {
 
     constructor(
@@ -126,6 +126,7 @@ export class SistemaController {
     @Post('autenticarUsuario')
     async autenticarUsuario(@Body() body: ContraseniaUsuarioUseCaseRequest) {
         try {
+            console.log(body)
             return await this._autenticarUsuarioSistemaUseCase.execute(body);
         } catch (e) {
             if (e instanceof InvalidRequestError) {
