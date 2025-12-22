@@ -9,9 +9,9 @@ import { MySQLAdministracionRepository } from './repository/mysql.repository';
             useFactory: async (): Promise<Pool>  =>{
                 return mysql.createPool({
                 host: process.env.MYSQL_HOST || 'localhost',
-                user: process.env.MYSQL_USER || 'root',
+                user: process.env.MYSQL_USER_ROOT || 'root',
                 password: process.env.MYSQL_ROOT_PASSWORD || '',
-                database: process.env.MYSQL_DATABASE || 'ProyectoDB',
+                database: process.env.MYSQL_DATABASE_PROYECTO || 'ProyectoDB',
                 waitForConnections: true,
                 connectionLimit: 10,
                 queueLimit: 0
