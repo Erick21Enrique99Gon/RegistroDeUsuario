@@ -40,7 +40,7 @@ services:
       - proyecto_network
     depends_on:
       - mysql
-    restart: always
+    # restart: always
 
 volumes:
   mysql_data:
