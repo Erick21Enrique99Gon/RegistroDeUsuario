@@ -16,13 +16,31 @@ services:
       - "3306:3306"
     volumes:
       - mysql_data:/var/lib/mysql
-      - ./scripts/init-db.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./Base de datos/scripts/init-db.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - proyecto_network
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       timeout: 20s
       retries: 10
+
+  backend:
+    container_name: sistema-backend
+    build: ./backend
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - MYSQL_HOST=mysql
+      - MYSQL_USER_ROOT=root
+      - MYSQL_ROOT_PASSWORD=devroot123
+      - MYSQL_DATABASE_PROYECTO=ProyectoDB
+      - HASH=12
+    networks:
+      - proyecto_network
+    depends_on:
+      - mysql
+    restart: always
 
 volumes:
   mysql_data:

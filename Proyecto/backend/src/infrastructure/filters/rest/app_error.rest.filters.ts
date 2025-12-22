@@ -10,7 +10,7 @@ export class AppErrorRestFilter implements ExceptionFilter {
 
         const ctx = host.switchToHttp();
 
-        const name = exception.name;
+        const name = exception.name; 
 
         switch (name) {
             case 'InvalidRequestError':
@@ -24,6 +24,16 @@ export class AppErrorRestFilter implements ExceptionFilter {
                 );
                 break;
             case 'NotFoundError':
+                httpAdapter.reply(
+                    ctx.getResponse(),
+                    {
+                        statusCode: 404,
+                        message: exception.message,
+                    },
+                    404,
+                );
+                break;
+            case 'BadRequestException':
                 httpAdapter.reply(
                     ctx.getResponse(),
                     {
