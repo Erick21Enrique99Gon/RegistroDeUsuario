@@ -84,6 +84,10 @@ export class RegistrarUsuarioSistemaUseCase {
             habilitado: true 
         };
         await this._sistema.registrarUsuario(usuario)
-        return { ok: true };
+        var usuarioResponse: Usuario = { 
+            ...usuario,
+            contrasenia: ""
+        };
+        return { ok: true,usuarioResponse };
     }
 }
