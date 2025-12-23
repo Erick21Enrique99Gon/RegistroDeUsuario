@@ -126,7 +126,7 @@ export class SistemaController {
     @Post('autenticarUsuario')
     async autenticarUsuario(@Body() body: ContraseniaUsuarioUseCaseRequest) {
         try {
-            console.log(body)
+            
             return await this._autenticarUsuarioSistemaUseCase.execute(body);
         } catch (e) {
             if (e instanceof InvalidRequestError) {
@@ -153,7 +153,7 @@ export class SistemaController {
     @Post('registrarPasaporte')
     async registrarPasaporte(@Body() body:RegistrarPasaporteUseCaseRequest) {
         try {
-            console.log(typeof body.fecha_de_emision)
+            
             body.fecha_de_emision = new Date(body.fecha_de_emision)
             body.fecha_de_vencimiento = new Date(body.fecha_de_vencimiento)
             return await this._registrarPasaporteSistemaUseCase.execute(body)

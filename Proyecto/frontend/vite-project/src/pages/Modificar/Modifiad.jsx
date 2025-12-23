@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { modificarUsuario, listarPaises, contraseniaUsuario } from '../../services/AdministracionServices';
+import { modificarUsuario, listarPaises, contraseniaUsuario,autenticarUsuario } from '../../services/AdministracionServices';
 import { getCookie, setCookie } from '../../utils/cookies';
 
 export default function ModificarUsuario() {
@@ -115,14 +115,22 @@ export default function ModificarUsuario() {
       }
 
       console.log('Actualizando usuario:', formData);
-
-      // CASO ESPECIAL: Si se proporciona nueva contraseña, verificar contraseña actual primero
       if (formData.contrasenia) {
+
+        console.log(formData.contrasenia)
+
+
+        const resp = await autenticarUsuario(formData.id, contraseniaActual);
+        if (!resp.autenticacion) {
+          setError('No se encontró información del usuario');
+          setLoadingUser(false);
+          return;
+        }
+
         console.log('Actualizando contraseña...');
         await contraseniaUsuario(formData.id, formData.contrasenia);
         
-        alert('Contraseña actualizada exitosamente');
-        return; // Salir después de actualizar contraseña
+        alert('Contraseña actualizada exitosamente'); 
       }
 
       // Enviar actualización al backend (sin token, si el backend usa cookies)
