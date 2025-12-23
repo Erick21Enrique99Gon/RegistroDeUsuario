@@ -1,8 +1,11 @@
 import { useState } from "react";
 import { autenticarUsuario } from "../../services/AdministracionServices";
-import { setCookie } from '../../utils/cookies';
+import { setCookie,getCookie } from '../../utils/cookies';
+import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     id: "",
     contrasenia: "",
@@ -41,7 +44,8 @@ export default function Login() {
       });
       console.log("Usuario autenticado y guardado en cookies");
       console.log("enviando", formData);
-      // Aquí navegar o redirigir
+      
+      navigate("/modified")
     } else {
       console.log("Autenticación fallida");
     }
