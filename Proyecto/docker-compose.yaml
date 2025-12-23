@@ -40,7 +40,19 @@ services:
       - proyecto_network
     depends_on:
       - mysql
-    # restart: always
+    restart: always
+  frontend:
+    container_name: sistema-frontend
+    build: ./frontend/vite-project
+    ports:
+      - "80:80"
+    environment:
+      - BACKEND_URL=http://backend:3000
+      - VITE_API_URL=http://backend:3000
+    depends_on:
+      - backend
+    networks:
+      - proyecto_network
 
 volumes:
   mysql_data:
