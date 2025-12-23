@@ -1,0 +1,221 @@
+/* EditarUsuario.css */
+/* Estilo coherente con Login, Modifiad y ListarUsuarios */
+
+.edit-user-page {
+  min-height: 100vh;
+  padding: 5rem 1.5rem 2rem;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.edit-user-card {
+  width: 100%;
+  max-width: 980px;
+  background: rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  padding: 2.4rem 2.5rem 2.1rem;
+  box-shadow:
+    0 26px 50px rgba(0, 0, 0, 0.22),
+    0 0 0 1px rgba(255, 255, 255, 0.08);
+  position: relative;
+  overflow: hidden;
+}
+
+.edit-user-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -20%;
+  right: -20%;
+  height: 5px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    #4997D0 20%,
+    #ffffff 50%,
+    #4997D0 80%,
+    transparent 100%
+  );
+}
+
+/* Encabezado */
+.edit-user-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.6rem;
+}
+
+.edit-user-title {
+  font-family: "Poppins", system-ui, sans-serif;
+  font-size: 1.7rem;
+  font-weight: 600;
+  color: #ffffff;
+  letter-spacing: -0.02em;
+}
+
+.edit-user-subtitle {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+/* Badges para rol / estado */
+.edit-user-badges {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.edit-user-badge {
+  padding: 0.25rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  color: #ffffff;
+}
+
+.edit-user-badge-admin {
+  background: rgba(0, 37, 84, 0.45);
+}
+
+.edit-user-badge-ciudadano {
+  background: rgba(73, 151, 208, 0.4);
+}
+
+.edit-user-badge-off {
+  background: rgba(220, 53, 69, 0.2);
+}
+
+/* Formulario en grid dos columnas */
+.edit-user-form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.15rem 1.75rem;
+}
+
+/* Fila completa */
+.edit-user-full {
+  grid-column: 1 / -1;
+}
+
+/* Ajustes de los mismos input-group / input-label del login */
+.edit-user-form .input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.36rem;
+}
+
+.edit-user-form .input-label {
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+/* Input de solo lectura para ID */
+.edit-user-id {
+  background: rgba(255, 255, 255, 0.16);
+  color: rgba(255, 255, 255, 0.9);
+  cursor: default;
+}
+
+/* Selects de esta vista con texto negro */
+.edit-user-form select.input-field {
+  color: #000000;
+  background-color: rgba(255, 255, 255, 0.96);
+}
+
+.edit-user-form select.input-field option {
+  color: #000000;
+}
+
+.edit-user-form select.input-field option[value=""] {
+  color: #555555;
+}
+
+/* Checkboxes de rol/estado */
+.edit-user-checkbox-row {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem 1.5rem;
+  margin-top: 0.3rem;
+}
+
+.edit-user-checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.edit-user-checkbox-label input {
+  accent-color: #4997D0;
+}
+
+/* Mensaje de error */
+.edit-user-form .error-message {
+  grid-column: 1 / -1;
+  margin-top: 0.5rem;
+}
+
+/* Acciones */
+.edit-user-actions {
+  grid-column: 1 / -1;
+  margin-top: 1.4rem;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.8rem;
+}
+
+/* Botón secundario (volver) */
+.edit-user-btn-secondary {
+  padding: 0.85rem 1.3rem;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  background: transparent;
+  color: #ffffff;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.1s ease;
+}
+
+.edit-user-btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.14);
+  transform: translateY(-1px);
+}
+
+/* Botón principal reutiliza .submit-btn del login */
+.edit-user-actions .submit-btn {
+  min-width: 160px;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .edit-user-card {
+    padding: 2.1rem 1.8rem 2rem;
+  }
+
+  .edit-user-form {
+    grid-template-columns: 1fr;
+  }
+
+  .edit-user-actions {
+    flex-direction: column-reverse;
+    align-items: stretch;
+  }
+
+  .edit-user-btn-secondary,
+  .edit-user-actions .submit-btn {
+    width: 100%;
+  }
+}

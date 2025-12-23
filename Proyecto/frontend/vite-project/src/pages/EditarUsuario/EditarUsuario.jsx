@@ -6,7 +6,8 @@ import {
     habilitarPasaporteUsuario
 } from '../../services/AdministracionServices';
 import { useNavigate } from 'react-router-dom';
-
+import "../Login/Login.css";     // para input-field, submit-btn, etc.
+import "./EditarUsuario.css";
 function DetalleUsuarioConPasaportes() {
     const navigate = useNavigate();
     const { id } = useParams();
@@ -64,112 +65,168 @@ function DetalleUsuarioConPasaportes() {
     };
     if (!usuario) return <p>Cargando...</p>;
 
-    return (
-        <div className="login-container">
-            <div className="login-content">
-                <h2 className="text-center">Detalle de Usuario</h2>
-                <div className="login-box">
-                    {error && <div className="error-message">{error}</div>}
-
-                    <p><strong>Correo:</strong> {usuario.correo_electronico}</p>
-                    <p><strong>Teléfono:</strong> {usuario.telefono}</p>
-                    <p><strong>Nombres:</strong> {usuario.nombres}</p>
-
-                    <div className="text-center" style={{ marginTop: '20px', marginBottom: '20px' }}>
-                        <button
-                            className="btn btn-primary"
-                            onClick={() => navigate(`/registrar-pasaporte/${id}`)}
-                        >
-                            + Registrar Nuevo Pasaporte
-                        </button>
-                    </div>
-
-                    <h3 className="text-center" style={{ marginTop: '20px' }}>
-                        Mis Pasaportes
-                    </h3>
-
-                    {pasaportes.length === 0 ? (
-                        <p className="text-center">No tienes pasaportes registrados.</p>
-                    ) : (
-                        <div className="pasaportes-list">
-                            {pasaportes.map((pasaporte, index) => {
-                                const key = pasaporte.numero_de_pasaporte + pasaporte.lugar || index;
-                                const isLoading = loadingBtn === key;
-                                const activo = !!pasaporte.habilitado;
-
-                                return (
-                                    <div key={key} className="pasaporte-card">
-                                        <div className="input-group">
-                                            <label><strong>Número:</strong></label>
-                                            <span>{pasaporte.numero_de_pasaporte}</span>
-                                        </div>
-
-                                        <div className="input-group">
-                                            <label><strong>Tipo:</strong></label>
-                                            <span>{pasaporte.tipo_de_pasaporte}</span>
-                                        </div>
-
-                                        <div className="input-group">
-                                            <label><strong>Fecha Emisión:</strong></label>
-                                            <span>
-                                                {new Date(pasaporte.fecha_de_emision)
-                                                    .toLocaleDateString('es-EC')}
-                                            </span>
-                                        </div>
-
-                                        <div className="input-group">
-                                            <label><strong>Fecha Vencimiento:</strong></label>
-                                            <span>
-                                                {new Date(pasaporte.fecha_de_vencimiento)
-                                                    .toLocaleDateString('es-EC')}
-                                            </span>
-                                        </div>
-
-                                        <div className="input-group">
-                                            <label><strong>Lugar:</strong></label>
-                                            <span>{pasaporte.lugar}</span>
-                                        </div>
-
-                                        <div className="input-group">
-                                            <label><strong>Estado:</strong></label>
-                                            <span
-                                                className={`status-${activo ? 'active' : 'inactive'}`}
-                                            >
-                                                {activo ? 'Activo' : 'Inactivo'}
-                                            </span>
-                                        </div>
-
-                                        {/* Botón para habilitar */}
-                                        {!activo && (
-                                            <button
-                                                className="btn-habilitar"
-                                                onClick={() => handleHabilitarPasaporte(pasaporte)}
-                                                disabled={isLoading}
-                                            >
-                                                {isLoading ? 'Habilitando...' : 'Habilitar'}
-                                            </button>
-                                        )}
-
-                                        <button
-                                        className="btn btn-primary btn-sm"
-                                        onClick={() =>
-                                            irADetalle(pasaporte.id_usuario, pasaporte.numero_de_pasaporte, pasaporte.lugar)
-                                        }
-                                        >
-                                        Ver detalle
-                                        </button>
-                                    </div>
-                                );
-                            })}
-                        </div>
-                    )}
-                    <div className="text-center" style={{ marginTop: '20px' }}>
-                        <a href="/usuarios" className="btn-link">← Volver a usuarios</a>
-                    </div>
-                </div>
-            </div>
+return (
+  <div className="modified-page">
+    <div className="modified-card">
+      {/* Encabezado */}
+      <div className="modified-header">
+        <div>
+          <h2 className="modified-title">Detalle de usuario</h2>
+          <p className="modified-subtitle">
+            Información del ciudadano y sus pasaportes
+          </p>
         </div>
-    );
+      </div>
+
+      {error && <div className="error-message modified-full">{error}</div>}
+
+      {/* Datos básicos del usuario */}
+      <div className="modified-form">
+        <div className="input-group">
+          <label className="input-label">Correo electrónico</label>
+          <input
+            type="text"
+            className="input-field edit-user-id"
+            value={usuario.correo_electronico}
+            disabled
+          />
+        </div>
+
+        <div className="input-group">
+          <label className="input-label">Teléfono</label>
+          <input
+            type="text"
+            className="input-field edit-user-id"
+            value={usuario.telefono}
+            disabled
+          />
+        </div>
+
+        <div className="input-group modified-full">
+          <label className="input-label">Nombres</label>
+          <input
+            type="text"
+            className="input-field edit-user-id"
+            value={usuario.nombres}
+            disabled
+          />
+        </div>
+
+        {/* Botón registrar pasaporte */}
+        <div className="modified-actions modified-full">
+          <button
+            type="button"
+            className="submit-btn"
+            onClick={() => navigate(`/registrar-pasaporte/${id}`)}
+          >
+            + Registrar nuevo pasaporte
+          </button>
+        </div>
+      </div>
+
+      {/* Mis pasaportes */}
+      <h3 className="modified-section-title" style={{ marginTop: "1.5rem" }}>
+        Mis pasaportes
+      </h3>
+
+      {pasaportes.length === 0 ? (
+        <p className="modified-summary">
+          No tienes pasaportes registrados.
+        </p>
+      ) : (
+        <div className="passport-list">
+          {pasaportes.map((pasaporte, index) => {
+            const key =
+              pasaporte.numero_de_pasaporte + pasaporte.lugar || index;
+            const isLoading = loadingBtn === key;
+            const activo = !!pasaporte.habilitado;
+
+            return (
+              <div key={key} className="passport-item">
+                <div className="passport-item-header">
+                  <span className="passport-number">
+                    Pasaporte #{pasaporte.numero_de_pasaporte}
+                  </span>
+                  <span
+                    className={
+                      activo
+                        ? "passport-flag passport-flag-on"
+                        : "passport-flag passport-flag-off"
+                    }
+                  >
+                    {activo ? "Activo" : "Inactivo"}
+                  </span>
+                </div>
+
+                <div className="passport-item-body">
+                  <div className="passport-row">
+                    <span className="passport-label">Tipo</span>
+                    <span className="passport-value">
+                      {pasaporte.tipo_de_pasaporte}
+                    </span>
+                  </div>
+
+                  <div className="passport-row">
+                    <span className="passport-label">Fecha emisión</span>
+                    <span className="passport-value">
+                      {new Date(
+                        pasaporte.fecha_de_emision
+                      ).toLocaleDateString("es-EC")}
+                    </span>
+                  </div>
+
+                  <div className="passport-row">
+                    <span className="passport-label">Fecha vencimiento</span>
+                    <span className="passport-value">
+                      {new Date(
+                        pasaporte.fecha_de_vencimiento
+                      ).toLocaleDateString("es-EC")}
+                    </span>
+                  </div>
+
+                  <div className="passport-row">
+                    <span className="passport-label">Lugar</span>
+                    <span className="passport-value">
+                      {pasaporte.lugar}
+                    </span>
+                  </div>
+                </div>
+
+                <div className="modified-actions">
+                  {!activo && (
+                    <button
+                      type="button"
+                      className="submit-btn"
+                      onClick={() => handleHabilitarPasaporte(pasaporte)}
+                      disabled={isLoading}
+                    >
+                      {isLoading ? "Habilitando..." : "Habilitar"}
+                    </button>
+                  )}
+
+                  <button
+                    type="button"
+                    className="modified-btn-secondary"
+                    onClick={() =>
+                      irADetalle(
+                        pasaporte.id_usuario,
+                        pasaporte.numero_de_pasaporte,
+                        pasaporte.lugar
+                      )
+                    }
+                  >
+                    Ver detalle
+                  </button>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  </div>
+);
+
 }
 
 export default DetalleUsuarioConPasaportes;

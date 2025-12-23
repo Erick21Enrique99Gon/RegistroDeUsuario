@@ -120,9 +120,9 @@ const ListarTodosPasaportes = () => {
             {pasaportesFiltrados.map((p) => {
               const habilitadoBool = p.habilitado === 1 || p.habilitado === true;
               return (
-                <tr key={p.id}>
+                <tr key={p.id_usuario+p.numero_de_pasaporte+p.lugar}>
                   <td>{p.numero_de_pasaporte}</td>
-                  <td>{p.usuario_nombre}</td>
+                  <td>{p.id_usuario}</td>
                   <td>{p.pais_nombre}</td>
                   <td>{p.fecha_emision}</td>
                   <td>{p.fecha_vencimiento}</td>
@@ -142,7 +142,7 @@ const ListarTodosPasaportes = () => {
                     {/* por ejemplo: */}
                     <button
                       className="table-action"
-                      onClick={() => irADetalle(p)}
+                      onClick={() => irADetalle(p.id_usuario,p.numero_de_pasaporte,p.lugar)}
                     >
                       Ver detalle
                     </button>

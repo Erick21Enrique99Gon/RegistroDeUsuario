@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { obtenerPasaporte, habilitarPasaporteUsuario, listarPasaportesUsuario } from "../../services/AdministracionServices";
 import { useNavigate } from 'react-router-dom';
-
+import './DetallePasaporte.css'
 function DetallePasaporte() {
   const { usuarioId, pasaporte, lugar } = useParams();
   const [data, setData] = useState(null);
@@ -78,59 +78,90 @@ const handleUsuario = () => {
   if (error) return <div>{error}</div>;
   if (!data) return <div>No se encontró información del pasaporte.</div>;
 
-  return (
-    <div className="container mt-4">
-      <h2>Detalle de Pasaporte</h2>
+return (
+  <div className="passport-detail-page">
+    <div className="passport-detail-card">
+      {/* Encabezado */}
+      <div className="passport-detail-header">
+        <div>
+          <h2 className="passport-detail-title">Detalle de pasaporte</h2>
+          <p className="passport-detail-subtitle">
+            Información completa del documento y su estado actual
+          </p>
+        </div>
 
-      <table className="table table-bordered">
-        <tbody>
-          <tr>
-            <th>Id Usuario</th>
-            <td>{data.id_usuario}</td>
-          </tr>
-          <tr>
-            <th>Tipo de pasaporte</th>
-            <td>{data.tipo_de_pasaporte}</td>
-          </tr>
-          <tr>
-            <th>Fecha de emisión</th>
-            <td>{data.fecha_de_emision}</td>
-          </tr>
-          <tr>
-            <th>Fecha de vencimiento</th>
-            <td>{data.fecha_de_vencimiento}</td>
-          </tr>
-          <tr>
-            <th>Lugar</th>
-            <td>{data.lugar}</td>
-          </tr>
-          <tr>
-            <th>País de emisión</th>
-            <td>{data.pais_de_emision}</td>
-          </tr>
-          <tr>
-            <th>Número de pasaporte</th>
-            <td>{data.numero_de_pasaporte}</td>
-          </tr>
-          <tr>
-            <th>Habilitado</th>
-            <td>{data.habilitado ? "Sí" : "No"}</td>
-          </tr>
-        </tbody>
-      </table>
+        <span
+          className={`passport-detail-status ${
+            data.habilitado ? "passport-detail-status-on" : "passport-detail-status-off"
+          }`}
+        >
+          {data.habilitado ? "Habilitado" : "Deshabilitado"}
+        </span>
+      </div>
 
-      <button
-        className="btn btn-success"
-        onClick={handleHabilitarPasaporte}
-        disabled={!!loadingBtn}
-      >
-        {loadingBtn ? "Habilitando..." : "Habilitar pasaporte"}
-      </button>
-                    <button onClick={() => handleUsuario()}>
-                Usuario
-              </button>
+      {/* Cuerpo: dos columnas de datos */}
+      <div className="passport-detail-body">
+        <div className="passport-detail-item">
+          <span className="passport-detail-label">ID usuario</span>
+          <span className="passport-detail-value">{data.id_usuario}</span>
+        </div>
+
+        <div className="passport-detail-item">
+          <span className="passport-detail-label">Número de pasaporte</span>
+          <span className="passport-detail-value">{data.numero_de_pasaporte}</span>
+        </div>
+
+        <div className="passport-detail-item">
+          <span className="passport-detail-label">Tipo de pasaporte</span>
+          <span className="passport-detail-value">{data.tipo_de_pasaporte}</span>
+        </div>
+
+        <div className="passport-detail-item">
+          <span className="passport-detail-label">País de emisión</span>
+          <span className="passport-detail-value">{data.pais_de_emision}</span>
+        </div>
+
+        <div className="passport-detail-item">
+          <span className="passport-detail-label">Fecha de emisión</span>
+          <span className="passport-detail-value">{data.fecha_de_emision}</span>
+        </div>
+
+        <div className="passport-detail-item">
+          <span className="passport-detail-label">Fecha de vencimiento</span>
+          <span className="passport-detail-value">{data.fecha_de_vencimiento}</span>
+        </div>
+
+        <div className="passport-detail-item passport-detail-full">
+          <span className="passport-detail-label">Lugar de emisión</span>
+          <span className="passport-detail-value">{data.lugar}</span>
+        </div>
+
+        {/* Si tienes más campos en data, puedes seguir el mismo patrón */}
+      </div>
+
+      {/* Acciones */}
+      <div className="passport-detail-actions">
+        <button
+          className="passport-detail-btn-secondary"
+          type="button"
+          onClick={handleUsuario}
+        >
+          Usuario
+        </button>
+
+        <button
+          type="button"
+          className="submit-btn"
+          onClick={handleHabilitarPasaporte}
+          disabled={!!loadingBtn}
+        >
+          {loadingBtn ? "Habilitando..." : "Habilitar pasaporte"}
+        </button>
+      </div>
     </div>
-  );
+  </div>
+);
+
 }
 
 export default DetallePasaporte;
