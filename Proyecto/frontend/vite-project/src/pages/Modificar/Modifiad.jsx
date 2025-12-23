@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { modificarUsuario, listarPaises, contraseniaUsuario,autenticarUsuario } from '../../services/AdministracionServices';
 import { getCookie, setCookie } from '../../utils/cookies';
+import './Modifiad.css'
 
 export default function ModificarUsuario() {
   const navigate = useNavigate();
@@ -122,7 +123,7 @@ export default function ModificarUsuario() {
 
         const resp = await autenticarUsuario(formData.id, contraseniaActual);
         if (!resp.autenticacion) {
-          setError('No se encontró información del usuario');
+          setError('Contrasenia Incorrecta');
           setLoadingUser(false);
           return;
         }
@@ -152,8 +153,8 @@ export default function ModificarUsuario() {
 
   if (loadingUser) {
     return (
-      <div className="login-container">
-        <div className="login-content">
+      <div className="modified-container">
+        <div className="modified-content">
           <h2 className="text-center">Cargando usuario...</h2>
         </div>
       </div>
@@ -161,216 +162,226 @@ export default function ModificarUsuario() {
   }
 
   return (
-    <div className="login-container">
-      <div className="login-content">
-        <h2 className="text-center">Modificar Usuario</h2>
-        <div className="login-box">
-          {/* Mostrar ID del usuario para referencia */}
-          <div className="input-group">
-            <label>ID Usuario</label>
-            <input 
-              type="text" 
-              value={formData.id} 
-              readOnly 
-              className="input-readonly" 
-              disabled={true}
-              style={{ backgroundColor: '#f5f5f5' }}
-            />
-          </div>
+<div className="modified-page">
+  <div className="modified-card">
+    {/* Encabezado superior */}
+    <div className="modified-header">
+      <div>
+        <h2 className="modified-title">Mi perfil</h2>
+        <p className="modified-subtitle">
+          Actualiza tus datos personales y de contacto
+        </p>
+      </div>
+      <span className="modified-status-badge">Ciudadano activo</span>
+    </div>
 
-          <form onSubmit={handleSubmit}>
-            <div className="input-group">
-              <label htmlFor="nombres">Nombres</label>
-              <input
-                type="text"
-                id="nombres"
-                name="nombres"
-                value={formData.nombres}
-                onChange={handleInputChange}
-                required
-              />
-            </div>
+    {/* ID solo lectura */}
+    <div className="input-group modified-full">
+      <label className="input-label">ID Usuario</label>
+      <input
+        type="text"
+        value={formData.id}
+        readOnly
+        className="input-field input-readonly"
+        disabled
+      />
+    </div>
 
-            <div className="input-group">
-              <label htmlFor="apellidos">Apellidos</label>
-              <input
-                type="text"
-                id="apellidos"
-                name="apellidos"
-                value={formData.apellidos}
-                onChange={handleInputChange}
-                required
-              />
-            </div>
+    {/* Formulario en grid */}
+    <form onSubmit={handleSubmit} className="modified-form">
+      <div className="input-group">
+        <label htmlFor="nombres" className="input-label">Nombres</label>
+        <input
+          type="text"
+          id="nombres"
+          name="nombres"
+          value={formData.nombres}
+          onChange={handleInputChange}
+          required
+          className="input-field"
+        />
+      </div>
 
-            <div className="input-group">
-              <label htmlFor="correo_electronico">Correo Electrónico</label>
-              <input
-                type="email"
-                id="correo_electronico"
-                name="correo_electronico"
-                value={formData.correo_electronico}
-                onChange={handleInputChange}
-                required
-              />
-            </div>
+      <div className="input-group">
+        <label htmlFor="apellidos" className="input-label">Apellidos</label>
+        <input
+          type="text"
+          id="apellidos"
+          name="apellidos"
+          value={formData.apellidos}
+          onChange={handleInputChange}
+          required
+          className="input-field"
+        />
+      </div>
 
-            <div className="input-group">
-              <label htmlFor="telefono">Teléfono</label>
-              <input
-                type="tel"
-                id="telefono"
-                name="telefono"
-                value={formData.telefono}
-                onChange={handleInputChange}
-                required
-              />
-            </div>
+      <div className="input-group">
+        <label htmlFor="correo_electronico" className="input-label">
+          Correo Electrónico
+        </label>
+        <input
+          type="email"
+          id="correo_electronico"
+          name="correo_electronico"
+          value={formData.correo_electronico}
+          onChange={handleInputChange}
+          required
+          className="input-field"
+        />
+      </div>
 
-            <div className="input-group">
-              <label htmlFor="sexo">Sexo</label>
-              <select
-                id="sexo"
-                name="sexo"
-                value={formData.sexo}
-                onChange={handleInputChange}
-                required
-              >
-                <option value="">Seleccione...</option>
-                <option value="Masculino">Masculino</option>
-                <option value="Femenino">Femenino</option>
-              </select>
-            </div>
+      <div className="input-group">
+        <label htmlFor="telefono" className="input-label">Teléfono</label>
+        <input
+          type="tel"
+          id="telefono"
+          name="telefono"
+          value={formData.telefono}
+          onChange={handleInputChange}
+          required
+          className="input-field"
+        />
+      </div>
 
-            <div className="input-group">
-              <label htmlFor="genero">Género</label>
-              <select
-                id="genero"
-                name="genero"
-                value={formData.genero}
-                onChange={handleInputChange}
-                required
-              >
-                <option value="">Seleccione...</option>
-                <option value="Hombre">Hombre</option>
-                <option value="Mujer">Mujer</option>
-                <option value="Otro">Otro</option>
-              </select>
-            </div>
+      <div className="input-group">
+        <label htmlFor="sexo" className="input-label">Sexo</label>
+        <select
+          id="sexo"
+          name="sexo"
+          value={formData.sexo}
+          onChange={handleInputChange}
+          required
+          className="input-field"
+        >
+          <option value="">Seleccione...</option>
+          <option value="Masculino">Masculino</option>
+          <option value="Femenino">Femenino</option>
+        </select>
+      </div>
 
-            <div className="input-group">
-              <label htmlFor="pais">País</label>
-              <select
-                id="pais"
-                name="pais"
-                value={formData.pais}
-                onChange={handleInputChange}
-                required
-              >
-                <option value="">Seleccione...</option>
-                {paises.map(pais => (
-                  <option key={pais.id} value={pais.id}>
-                    {pais.nombre}
-                  </option>
-                ))}
-              </select>
-            </div>
+      <div className="input-group">
+        <label htmlFor="genero" className="input-label">Género</label>
+        <select
+          id="genero"
+          name="genero"
+          value={formData.genero}
+          onChange={handleInputChange}
+          required
+          className="input-field"
+        >
+          <option value="">Seleccione...</option>
+          <option value="Hombre">Hombre</option>
+          <option value="Mujer">Mujer</option>
+          <option value="Otro">Otro</option>
+        </select>
+      </div>
 
-            {/* NUEVO: Sección para cambiar contraseña */}
-            <div className="input-group">
-              <label htmlFor="contraseniaActual">Contraseña Actual (requerida para cambio)</label>
-              <div style={{ position: 'relative' }}>
-                <input
-                  type={mostrarContrasenia ? 'text' : 'password'}
-                  id="contraseniaActual"
-                  name="contraseniaActual"
-                  value={contraseniaActual}
-                  onChange={handleContraseniaActualChange}
-                  placeholder="Ingrese contraseña actual"
-                />
-                <button
-                  type="button"
-                  style={{
-                    position: 'absolute',
-                    right: '10px',
-                    top: '50%',
-                    transform: 'translateY(-50%)',
-                    border: 'none',
-                    background: 'none',
-                    cursor: 'pointer'
-                  }}
-                  onClick={() => setMostrarContrasenia(!mostrarContrasenia)}
-                >
-                  {mostrarContrasenia ? '🙈' : '👁️'}
-                </button>
-              </div>
-            </div>
+      <div className="input-group modified-full">
+        <label htmlFor="pais" className="input-label">País</label>
+        <select
+          id="pais"
+          name="pais"
+          value={formData.pais}
+          onChange={handleInputChange}
+          required
+          className="input-field"
+        >
+          <option value="">Seleccione...</option>
+          {paises.map((pais) => (
+            <option key={pais.id} value={pais.id}>
+              {pais.nombre}
+            </option>
+          ))}
+        </select>
+      </div>
 
-            <div className="input-group">
-              <label htmlFor="contrasenia">Nueva Contraseña (opcional)</label>
-              <input
-                type={mostrarContrasenia ? 'text' : 'password'}
-                id="contrasenia"
-                name="contrasenia"
-                value={formData.contrasenia}
-                onChange={handleInputChange}
-                placeholder="Deje vacío para no cambiar contraseña"
-              />
-            </div>
-
-            <div className="checkbox-group">
-              <label>
-                <input
-                  type="checkbox"
-                  name="administrador"
-                  checked={formData.administrador === true}
-                  onChange={handleCheckboxChange}
-                />
-                Administrador
-              </label>
-            </div>
-
-            <div className="checkbox-group">
-              <label>
-                <input
-                  type="checkbox"
-                  name="ciudadano"
-                  checked={formData.ciudadano === true}
-                  onChange={handleCheckboxChange}
-                />
-                Ciudadano
-              </label>
-            </div>
-
-            <div className="checkbox-group">
-              <label>
-                <input
-                  type="checkbox"
-                  name="habilitado"
-                  checked={formData.habilitado === true}
-                  onChange={handleCheckboxChange}
-                />
-                Habilitado
-              </label>
-            </div>
-
-            {error && (
-              <div className="error-message">{error}</div>
-            )}
-
-            <button 
-              type="submit" 
-              className="btn-submit"
-              disabled={loading}
-            >
-              {loading ? 'Actualizando...' : 'Actualizar Usuario'}
-            </button>
-          </form>
-
-          <div className="text-center">
-          </div>
+      {/* Cambio de contraseña */}
+      <div className="input-group modified-full">
+        <label htmlFor="contraseniaActual" className="input-label">
+          Contraseña actual (requerida para cambio)
+        </label>
+        <div className="password-wrapper">
+          <input
+            type={mostrarContrasenia ? "text" : "password"}
+            id="contraseniaActual"
+            name="contraseniaActual"
+            value={contraseniaActual}
+            onChange={handleContraseniaActualChange}
+            placeholder="Ingrese contraseña actual"
+            className="input-field"
+          />
+          <button
+            type="button"
+            className="password-toggle"
+            onClick={() => setMostrarContrasenia(!mostrarContrasenia)}
+          >
+            {mostrarContrasenia ? "🙈" : "👁️"}
+          </button>
         </div>
       </div>
-    </div>
+
+      <div className="input-group modified-full">
+        <label htmlFor="contrasenia" className="input-label">
+          Nueva contraseña (opcional)
+        </label>
+        <input
+          type={mostrarContrasenia ? "text" : "password"}
+          id="contrasenia"
+          name="contrasenia"
+          value={formData.contrasenia}
+          onChange={handleInputChange}
+          placeholder="Deje vacío para no cambiar contraseña"
+          className="input-field"
+        />
+      </div>
+
+      {/* Checkboxes */}
+      <div className="modified-checkbox-row">
+        <label className="modified-checkbox-label">
+          <input
+            type="checkbox"
+            name="administrador"
+            checked={formData.administrador === true}
+            onChange={handleCheckboxChange}
+          />
+          Administrador
+        </label>
+        <label className="modified-checkbox-label">
+          <input
+            type="checkbox"
+            name="ciudadano"
+            checked={formData.ciudadano === true}
+            onChange={handleCheckboxChange}
+          />
+          Ciudadano
+        </label>
+        <label className="modified-checkbox-label">
+          <input
+            type="checkbox"
+            name="habilitado"
+            checked={formData.habilitado === true}
+            onChange={handleCheckboxChange}
+          />
+          Habilitado
+        </label>
+      </div>
+
+      {error && (
+        <div className="error-message modified-full">{error}</div>
+      )}
+
+      <div className="modified-actions">
+        <button
+          type="submit"
+          className="submit-btn"
+          disabled={loading}
+        >
+          {loading ? "Actualizando..." : "Actualizar usuario"}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
   );
 }

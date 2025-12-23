@@ -2,14 +2,14 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { listarPasaportesUsuario } from '../../services/AdministracionServices';
 import { getCookie } from '../../utils/cookies';
-import './ListarPasaportes.css';
 
+import "./ListarPasaportes.css";
+import "../Login/Login.css";
 export default function ListarPasaportes() {
   const navigate = useNavigate();
   const [pasaportes, setPasaportes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-
   useEffect(() => {
     const fetchPasaportes = async () => {
       try {
@@ -45,58 +45,65 @@ export default function ListarPasaportes() {
   }
 
   return (
-    <div className="login-container">
-      <div className="login-content">
-        <h2 className="text-center">Mis Pasaportes</h2>
-        <div className="login-box">
-          {error && <div className="error-message">{error}</div>}
-          
-          {pasaportes.length === 0 ? (
-            <p className="text-center">No tienes pasaportes registrados.</p>
-          ) : (
-            <div className="pasaportes-list">
-              {pasaportes.map((pasaporte, index) => (
-                <div key={pasaporte.numero_de_pasaporte+pasaporte.lugar || index} className="pasaporte-card">
-                  <div className="input-group">
-                    <label><strong>Número:</strong></label>
-                    <span>{pasaporte.numero_de_pasaporte}</span>
-                  </div>
-                  <div className="input-group">
-                    <label><strong>Tipo:</strong></label>
-                    <span>{pasaporte.tipo_de_pasaporte}</span>
-                  </div>
-                  <div className="input-group">
-                    <label><strong>Fecha Emisión:</strong></label>
-                    <span>{new Date(pasaporte.fecha_de_emision).toLocaleDateString('es-EC')}</span>
-                  </div>
-                  <div className="input-group">
-                    <label><strong>Fecha Vencimiento:</strong></label>
-                    <span>{new Date(pasaporte.fecha_de_vencimiento).toLocaleDateString('es-EC')}</span>
-                  </div>
-                  <div className="input-group">
-                    <label><strong>Lugar:</strong></label>
-                    <span>{pasaporte.lugar}</span>
-                  </div>
-                  <div className="input-group">
-                    <label><strong>País ID:</strong></label>
-                    <span>{pasaporte.pais_de_emision}</span>
-                  </div>
-                  <div className="input-group">
-                    <label><strong>Estado:</strong></label>
-                    <span className={`status-${pasaporte.habilitado ? 'active' : 'inactive'}`}>
-                      {pasaporte.habilitado ? 'Activo' : 'Inactivo'}
-                    </span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-          
-          <div className="text-center">
-            <a href="/usuarios" className="btn-link">← Volver a usuarios</a>
-          </div>
+  <div className="passport-page">
+    <div className="passport-card">
+      <div className="passport-header">
+        <div>
+          <h2 className="passport-title">Mis pasaportes</h2>
+          <p className="passport-subtitle">
+            Consulta el historial de pasaportes asociados a tu usuario
+          </p>
         </div>
       </div>
+
+      {loading && <p className="passport-info">Cargando pasaportes...</p>}
+      {error && <p className="passport-error">{error}</p>}
+
+      {!loading && pasaportes.length === 0 && !error && (
+        <div className="passport-empty">
+          <p>No se encontraron pasaportes asociados.</p>
+        </div>
+      )}
+
+      {!loading && pasaportes.length > 0 && (
+        <div className="passport-list">
+          {pasaportes.map((p) => (
+            <div key={p.id+p.numero_de_pasaporte+p.lugar} className="passport-item"><div className="passport-item-header">
+              <span className="passport-number">
+                Pasaporte #{p.numero_de_pasaporte}
+              </span>
+              
+
+              <span className={p.habilitado ? "passport-flag passport-flag-on" 
+                                            : "passport-flag passport-flag-off"}>
+                {p.habilitado ? "Habilitado" : "Deshabilitado"}
+              </span>
+
+            </div>
+
+              <div className="passport-item-body">
+                <div className="passport-row">
+                  <span className="passport-label">Fecha emisión</span>
+                  <span className="passport-value">{p.fecha_de_emision}</span>
+                </div>
+                <div className="passport-row">
+                  <span className="passport-label">Fecha vencimiento</span>
+                  <span className="passport-value">{p.fecha_de_vencimiento}</span>
+                </div>
+                <div className="passport-row">
+                  <span className="passport-label">País</span>
+                  <span className="passport-value">{p.pais_de_emision}</span>
+                </div>
+                <div className="passport-row">
+                  <span className="passport-label">Lugar emisión</span>
+                  <span className="passport-value">{p.lugar}</span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
+  </div>
   );
 }
