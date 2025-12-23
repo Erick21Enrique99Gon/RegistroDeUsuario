@@ -6,6 +6,7 @@ export class ListarPaisesSistemaUseCase{
     constructor(private readonly _sistema: AdministracionContract) {}
 
     async execute(){
+        console.log("Aaaaaaaa")
         const paises = await this._sistema.listarPaises()
         return paises
     }

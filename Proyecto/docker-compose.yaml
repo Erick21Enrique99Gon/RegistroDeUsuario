@@ -30,12 +30,17 @@ services:
     ports:
       - "3000:3000"
     environment:
-      - PORT=3000
-      - MYSQL_HOST=mysql
-      - MYSQL_USER_ROOT=root
-      - MYSQL_ROOT_PASSWORD=devroot123
-      - MYSQL_DATABASE_PROYECTO=ProyectoDB
-      - HASH=12
+      PORT_BACKEND: ${PORT_BACKEND}
+      MYSQL_HOST: ${MYSQL_HOST}
+      MYSQL_USER_ROOT: ${MYSQL_USER_ROOT}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE_PROYECTO: ${MYSQL_DATABASE_PROYECTO}
+      HASH: ${HASH}
+      SMTP_SERVICE: ${SMTP_SERVICE}
+      SMTP_HOST: ${SMTP_HOST}
+      SMTP_PORT: ${SMTP_PORT}
+      SMTP_USER: ${SMTP_USER}
+      SMTP_PASSWORD: ${SMTP_PASSWORD}
     networks:
       - proyecto_network
     depends_on:
