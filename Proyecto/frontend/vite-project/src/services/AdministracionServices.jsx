@@ -244,3 +244,34 @@ export const registraPasporte = async (formData) => {
     throw err;
   }
 };
+
+
+export const listarPasaportes = async () => {
+  try {
+    const res = await fetch(`/api/listarPasaportes`, {
+      method: 'GET',
+    });
+    const data = await res.json();
+    return data;
+  } catch (err) {
+    console.error('Error en listarPasaportes:', err);
+    throw err;
+  }
+};
+
+
+
+export const obtenerPasaporte = async (id,pasaporte,lugar) => {
+  try {
+    const res = await fetch(`/api/obtenerPasaporte/${id}/${pasaporte}/${lugar}`, {
+      method: 'GET', // Cambiar a GET para consulta
+      credentials: 'include', // Para enviar cookies de autenticación
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error('Error al listar pasaportes');
+    return data;
+  } catch (err) {
+    console.error('Error en obtenerPasaporte:', err);
+    throw err;
+  }
+};

@@ -58,6 +58,10 @@ function DetalleUsuarioConPasaportes() {
         }
     };
 
+    const irADetalle = (idUsuario, numeroPasaporte, lugar) => {
+        // Construye la URL: /obtenerPasaporte/:usuarioId/:pasaporte/:lugar
+        navigate(`/obtenerPasaporte/${idUsuario}/${numeroPasaporte}/${lugar}`);
+    };
     if (!usuario) return <p>Cargando...</p>;
 
     return (
@@ -70,14 +74,14 @@ function DetalleUsuarioConPasaportes() {
                     <p><strong>Correo:</strong> {usuario.correo_electronico}</p>
                     <p><strong>Teléfono:</strong> {usuario.telefono}</p>
                     <p><strong>Nombres:</strong> {usuario.nombres}</p>
-                    
+
                     <div className="text-center" style={{ marginTop: '20px', marginBottom: '20px' }}>
-                    <button 
-                        className="btn btn-primary" 
-                        onClick={() => navigate(`/registrar-pasaporte/${id}`)}
-                    >
-                        + Registrar Nuevo Pasaporte
-                    </button>
+                        <button
+                            className="btn btn-primary"
+                            onClick={() => navigate(`/registrar-pasaporte/${id}`)}
+                        >
+                            + Registrar Nuevo Pasaporte
+                        </button>
                     </div>
 
                     <h3 className="text-center" style={{ marginTop: '20px' }}>
@@ -145,6 +149,15 @@ function DetalleUsuarioConPasaportes() {
                                                 {isLoading ? 'Habilitando...' : 'Habilitar'}
                                             </button>
                                         )}
+
+                                        <button
+                                        className="btn btn-primary btn-sm"
+                                        onClick={() =>
+                                            irADetalle(pasaporte.id_usuario, pasaporte.numero_de_pasaporte, pasaporte.lugar)
+                                        }
+                                        >
+                                        Ver detalle
+                                        </button>
                                     </div>
                                 );
                             })}
