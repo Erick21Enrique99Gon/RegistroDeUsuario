@@ -9,6 +9,8 @@ import ListarPasaportes from "../pages/PasaportesUsuario/PasaporteUsuario";
 import ListarUsuarios from "../pages/ListarUsuarios/ListarUsuarios";
 import EditarUsuario from "../pages/EditarUsuario/EditarUsuario";
 import RegistrarPasaporte from "../pages/RegistrarPasaporte/RegistrarPasaporte";
+import ListarTodosPasaportes from "../pages/ListarPasaportes/ListarTodosPasportes";
+import DetallePasaporte from "../pages/DetallePasaporte/DetallePasporte";
 // Componente para rutas protegidas
 const ProtectedRoute = ({ children }) => {
   const location = useLocation();
@@ -47,6 +49,8 @@ const AppRouter = () => {
         <Route path="/usuarios" element={<ListarUsuarios />} />
         <Route path="/editarUsuario/:id" element={<EditarUsuario />} />
         <Route path="/registrar-pasaporte/:id" element={<RegistrarPasaporte />} />
+        <Route path="/listartodospasaportes" element={<ListarTodosPasaportes />} />
+        <Route path="/obtenerPasaporte/:usuarioId/:pasaporte/:lugar" element={<DetallePasaporte />} />
         <Route 
           path="/register" 
           element={

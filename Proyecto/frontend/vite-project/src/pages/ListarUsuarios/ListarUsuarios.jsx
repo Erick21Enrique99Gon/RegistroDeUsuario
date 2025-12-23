@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 function ListarUsuarios() {
   const [usuarios, setUsuarios] = useState([]);
   const [loading, setLoading] = useState(true);
-  const navigate = useNavigate(); // <-- crear navigate aquí
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUsuarios = async () => {
