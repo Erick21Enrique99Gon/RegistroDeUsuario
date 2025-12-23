@@ -1,7 +1,7 @@
 import { registrarUsuario, listarPaises } from '../../services/AdministracionServices';
 import { useState, useEffect } from 'react';
 import "./Login.css"; // MISMO CSS que el login
-
+import { setCookie } from '../../utils/cookies';
 export default function Register() {
   const [formData, setFormData] = useState({
     correo_electronico: '',
@@ -58,15 +58,25 @@ export default function Register() {
 
     try {
       const response = await registrarUsuario(formData);
-      console.log('Registro exitoso:', response);
-      alert('Registro exitoso. Puedes iniciar sesión.');
-      // window.location.href = '/login';
+      
+      if (response.ok && response.usuarioResponse) {
+        // Usar tus funciones setCookie existentes
+        setCookie("autenticacion", true);
+        setCookie("usuario", response.usuarioResponse);
+        
+        console.log('Registro exitoso, usuario guardado:', response.usuarioResponse);
+        
+        // Redirigir a /modified
+        window.location.href = '/modified';
+      } else {
+        throw new Error('Respuesta inválida del servidor');
+      }
     } catch (err) {
       console.error('Error en registro:', err);
       setError(err.message || 'Error al registrar usuario');
     } finally {
       setLoading(false);
-    }
+}
   };
 
   return (
