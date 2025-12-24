@@ -48,3 +48,4 @@ Ref: "usuarios"."id" < "pasaporte"."id_usuario"
 
 # Base de dato en MySQL
 
+![Alt text describing the image](./IBD/Diagrama-Diagrama%20Logico.drawio.svg)

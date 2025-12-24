@@ -200,7 +200,6 @@ export class MySQLAdministracionRepository extends AdministracionContract{
         // El stored procedure devuelve un result set con un solo objeto que contiene 'resultado'
         const mensaje = result[0][0]?.resultado || 'UNKNOWN';
 
-        console.log(mensaje)
         switch (true) {
             case mensaje.includes('ERROR_USUARIO_INEXISTENTE'):
                 throw new InvalidRequestError('Usuario no encontrado');
@@ -215,7 +214,6 @@ export class MySQLAdministracionRepository extends AdministracionContract{
             case mensaje === 'SUCCESS':
                 return;
             default:
-                console.log(mensaje)
                 throw new InvalidRequestError('Error inesperado en base de datos');
         }
     }

@@ -1,0 +1,188 @@
+/* DetallePasaporte.css */
+/* Estilo coherente con Login, Modifiad y listas */
+
+/* Contenedor general */
+.passport-detail-page {
+  min-height: 100vh;
+  padding: 5rem 1.5rem 2rem;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+/* Tarjeta principal */
+.passport-detail-card {
+  width: 100%;
+  max-width: 900px;
+  background: rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  padding: 2.5rem 2.5rem 2.1rem;
+  box-shadow:
+    0 26px 50px rgba(0, 0, 0, 0.22),
+    0 0 0 1px rgba(255, 255, 255, 0.08);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Banda superior tipo bandera */
+.passport-detail-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -20%;
+  right: -20%;
+  height: 5px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    #4997D0 20%,
+    #ffffff 50%,
+    #4997D0 80%,
+    transparent 100%
+  );
+}
+
+/* Encabezado */
+.passport-detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.6rem;
+}
+
+.passport-detail-title {
+  font-family: "Poppins", system-ui, sans-serif;
+  font-size: 1.7rem;
+  font-weight: 600;
+  color: #ffffff;
+  letter-spacing: -0.02em;
+}
+
+.passport-detail-subtitle {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+/* Estado */
+.passport-detail-status {
+  padding: 0.35rem 0.9rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.passport-detail-status-on {
+  background: rgba(40, 167, 69, 0.2);
+  color: #d4f8df;
+  border: 1px solid rgba(40, 167, 69, 0.7);
+}
+
+.passport-detail-status-off {
+  background: rgba(220, 53, 69, 0.2);
+  color: #ffd4d4;
+  border: 1px solid rgba(220, 53, 69, 0.7);
+}
+
+/* Cuerpo: dos columnas de datos */
+.passport-detail-body {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem 1.5rem;
+}
+
+/* Fila completa */
+.passport-detail-full {
+  grid-column: 1 / -1;
+}
+
+/* Ítem de información */
+.passport-detail-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.passport-detail-label {
+  font-size: 0.82rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.passport-detail-value {
+  font-size: 0.95rem;
+  color: #ffffff;
+  font-weight: 500;
+  word-break: break-word;
+}
+
+/* Observaciones / notas */
+.passport-detail-notes {
+  padding: 0.9rem 1rem;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.95);
+  font-size: 0.9rem;
+}
+
+/* Acciones (botones) */
+.passport-detail-actions {
+  margin-top: 1.6rem;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.8rem;
+}
+
+/* Botón secundario (Usuario / Volver) */
+.passport-detail-btn-secondary {
+  padding: 0.8rem 1.2rem;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  background: transparent;
+  color: #ffffff;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s ease,
+              color 0.2s ease,
+              transform 0.1s ease;
+}
+
+.passport-detail-btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.14);
+  transform: translateY(-1px);
+}
+
+/* Botón principal reutiliza .submit-btn del login;
+   aquí sólo se controla el ancho mínimo si lo usas */
+.passport-detail-actions .submit-btn {
+  min-width: 160px;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .passport-detail-card {
+    padding: 2.1rem 1.8rem 2rem;
+  }
+
+  .passport-detail-body {
+    grid-template-columns: 1fr;
+  }
+
+  .passport-detail-actions {
+    flex-direction: column-reverse;
+    align-items: stretch;
+  }
+
+  .passport-detail-btn-secondary,
+  .passport-detail-actions .submit-btn {
+    width: 100%;
+  }
+}
