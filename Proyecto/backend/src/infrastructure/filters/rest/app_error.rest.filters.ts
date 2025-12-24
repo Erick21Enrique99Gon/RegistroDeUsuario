@@ -43,6 +43,16 @@ export class AppErrorRestFilter implements ExceptionFilter {
                     404,
                 );
                 break;
+            case 'UnauthorizedException':
+                httpAdapter.reply(
+                    ctx.getResponse(),
+                    {
+                        statusCode: 401,
+                        message: exception.message,
+                    },
+                    404,
+                );
+                break;
         }
     }
 }

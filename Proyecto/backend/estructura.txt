@@ -1,0 +1,66 @@
+﻿Listado de rutas de carpetas
+El n·mero de serie del volumen es B289-3B53
+C:\USERS\ERICK\ONEDRIVE\DOCUMENTOS\ERICK\PROYECTO TRABAJO\REGISTRODEUSUARIO\PROYECTO\BACKEND\SRC
+ª   app.controller.spec.ts
+ª   app.controller.ts
+ª   app.module.ts
+ª   app.service.ts
+ª   main.ts
+ª   
++---application
+ª   +---dtos
+ª   ª       contraseniaUsuario_sistema.dto.ts
+ª   ª       modificarUsuario_sistema.dto.ts
+ª   ª       registrarPasaporte_sistema.dto.ts
+ª   ª       registrarUsuario_sistema.dto.ts
+ª   ª       
+ª   +---use_cases
+ª           autenticarUsuario_sistema.use_case.ts
+ª           contraseniaUsuario_sistema.use_case.ts
+ª           habilitarPasaporteUsuario_sistema.use_case.ts
+ª           listarPaises_sisstema.use_case.ts
+ª           listarPasaportes.use_case.ts
+ª           listarPasaportesUsuario.use_case.ts
+ª           listarUsuario_sistema.use_case.ts
+ª           modificarUsuario_sistema.use_case.ts
+ª           obtenerPasaporte_sistema.use_case.ts
+ª           obtenerUsuario_sistema.use_case.ts
+ª           registrarPasaporte_sistema.use_case.ts
+ª           registrarUsuario_sistema.use_case.ts
+ª           toggleUsuarioStatus_sistema.use_case.ts
+ª           
++---domain
+ª   +---contracts
+ª   ª       administracion.contract.ts
+ª   ª       email.contract.ts
+ª   ª       
+ª   +---errors
+ª   ª       invalid_request.error.ts
+ª   ª       not_found.error.ts
+ª   ª       
+ª   +---interfaces
+ª           sistema.interfaces.ts
+ª           
++---infrastructure
+ª   ª   sistema.modules.ts
+ª   ª   
+ª   +---filters
+ª   ª   +---rest
+ª   ª           app_error.rest.filters.ts
+ª   ª           
+ª   +---persistance
+ª   ª   +---mysql
+ª   ª       ª   mysql.module.ts
+ª   ª       ª   
+ª   ª       +---repository
+ª   ª               mysql.repository.ts
+ª   ª               
+ª   +---services
+ª       +---email
+ª               email.module.ts
+ª               email.service.ts
+ª               
++---presentation
+    ª   sistema.controllers.ts
+    ª   
+    +---guards

@@ -30,6 +30,9 @@ import { ListarPasaportesSistemaUseCase } from 'src/application/use_cases/listar
 import { ListarPaisesSistemaUseCase } from 'src/application/use_cases/listarPaises_sisstema.use_case';
 import { ListarPasaportesUsuarioSistemaUseCase } from 'src/application/use_cases/listarPasaportesUsuario.use_case';
 
+import { UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from './guards/jwt.guard'; 
+
 @Controller('api/')
 export class SistemaController {
 
