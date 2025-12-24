@@ -1,0 +1,237 @@
+/* Modifiad.css */
+/* Estilo coherente con Login.css y Navbar.css */
+
+/* Contenedor general de la página de modificación */
+.modified-page {
+  min-height: 100vh;
+  padding: 5rem 1.5rem 2rem; /* espacio para navbar fijo */
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+/* Tarjeta principal (similar al login pero más ancha) */
+.modified-card {
+  width: 100%;
+  max-width: 980px;
+  background: rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  padding: 2.5rem 2.5rem 2.25rem;
+  box-shadow:
+    0 26px 50px rgba(0, 0, 0, 0.22),
+    0 0 0 1px rgba(255, 255, 255, 0.08);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Banda superior tipo bandera */
+.modified-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -20%;
+  right: -20%;
+  height: 5px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    #4997D0 20%,
+    #ffffff 50%,
+    #4997D0 80%,
+    transparent 100%
+  );
+}
+
+/* Encabezado */
+.modified-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.75rem;
+}
+
+.modified-title {
+  font-family: "Poppins", system-ui, sans-serif;
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: #ffffff;
+  letter-spacing: -0.02em;
+}
+
+.modified-subtitle {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+/* Badge de estado (ej. Ciudadano activo) */
+.modified-status-badge {
+  padding: 0.35rem 0.9rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  color: #ffffff;
+  background: rgba(0, 37, 84, 0.35);
+}
+
+/* Layout del formulario en dos columnas */
+.modified-form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.15rem 1.75rem;
+}
+
+/* Para inputs que ocupan toda la fila */
+.modified-full {
+  grid-column: 1 / -1;
+}
+
+/* Subtítulos internos de secciones */
+.modified-section-title {
+  grid-column: 1 / -1;
+  margin-top: 0.4rem;
+  margin-bottom: -0.2rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* Ajuste de grupos de input (usa las mismas clases del login) */
+.modified-form .input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.36rem;
+}
+
+.modified-form .input-label {
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+/* Inputs / selects (reutilizan .input-field de Login.css) */
+.modified-form .input-field {
+  width: 100%;
+}
+
+/* Selects con texto negro */
+.modified-form select.input-field {
+  color: #000000;
+  background-color: rgba(255, 255, 255, 0.96);
+}
+
+.modified-form select.input-field option {
+  color: #000000;
+}
+
+.modified-form select.input-field option[value=""] {
+  color: #555555;
+}
+
+/* Grupo de checkboxes / switches */
+.modified-checkbox-row {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem 1.5rem;
+  margin-top: 0.3rem;
+}
+
+.modified-checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.modified-checkbox-label input {
+  accent-color: #4997D0;
+}
+
+/* Bloque de resumen / información */
+.modified-summary {
+  grid-column: 1 / -1;
+  padding: 0.9rem 1rem;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.95);
+  font-size: 0.9rem;
+}
+
+/* Mensajes de error (reutiliza .error-message del login) */
+.modified-form .error-message {
+  grid-column: 1 / -1;
+  margin-top: 0.5rem;
+}
+
+/* Acciones (botones) al final del formulario */
+.modified-actions {
+  grid-column: 1 / -1;
+  margin-top: 1.4rem;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.8rem;
+}
+
+/* Botón secundario (cancelar / volver) */
+.modified-btn-secondary {
+  padding: 0.85rem 1.3rem;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  background: transparent;
+  color: #ffffff;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s ease,
+              color 0.2s ease,
+              transform 0.1s ease;
+}
+
+.modified-btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.14);
+  transform: translateY(-1px);
+}
+
+/* Botón principal reutiliza .submit-btn de Login.css;
+   aquí solo se controla ancho mínimo */
+.modified-actions .submit-btn {
+  min-width: 160px;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .modified-card {
+    padding: 2.1rem 1.8rem 2rem;
+  }
+
+  .modified-form {
+    grid-template-columns: 1fr;
+  }
+
+  .modified-full {
+    grid-column: 1 / -1;
+  }
+
+  .modified-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .modified-actions {
+    flex-direction: column-reverse;
+    align-items: stretch;
+  }
+
+  .modified-btn-secondary,
+  .modified-actions .submit-btn {
+    width: 100%;
+  }
+}

@@ -1,0 +1,214 @@
+/* RegistrarPasaporte.css */
+/* Estilo coherente con Login, Modifiad, Detalle y listas */
+
+/* Contenedor general */
+.register-passport-page {
+  min-height: 100vh;
+  padding: 5rem 1.5rem 2rem;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+/* Card principal */
+.register-passport-card {
+  width: 100%;
+  max-width: 900px;
+  background: rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  padding: 2.4rem 2.5rem 2.1rem;
+  box-shadow:
+    0 26px 50px rgba(0, 0, 0, 0.22),
+    0 0 0 1px rgba(255, 255, 255, 0.08);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Banda superior tipo bandera */
+.register-passport-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -20%;
+  right: -20%;
+  height: 5px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    #4997D0 20%,
+    #ffffff 50%,
+    #4997D0 80%,
+    transparent 100%
+  );
+}
+
+/* Encabezado */
+.register-passport-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.6rem;
+}
+
+.register-passport-title {
+  font-family: "Poppins", system-ui, sans-serif;
+  font-size: 1.7rem;
+  font-weight: 600;
+  color: #ffffff;
+  letter-spacing: -0.02em;
+}
+
+.register-passport-subtitle {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+/* Badge con ID usuario si lo muestras en el header */
+.register-passport-badge {
+  padding: 0.25rem 0.8rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  color: #ffffff;
+  background: rgba(0, 37, 84, 0.45);
+}
+
+/* Formulario en dos columnas */
+.register-passport-form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.15rem 1.75rem;
+}
+
+/* Fila completa */
+.register-passport-full {
+  grid-column: 1 / -1;
+}
+
+/* Ajuste de input-group / label como en otras vistas */
+.register-passport-form .input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.36rem;
+}
+
+.register-passport-form .input-label {
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+/* Inputs y selects reutilizan .input-field de Login.css */
+.register-passport-form .input-field {
+  width: 100%;
+}
+
+/* Selects con texto negro (país, tipo, etc.) */
+.register-passport-form select.input-field {
+  color: #000000;
+  background-color: rgba(255, 255, 255, 0.96);
+}
+
+.register-passport-form select.input-field option {
+  color: #000000;
+}
+
+.register-passport-form select.input-field option[value=""] {
+  color: #555555;
+}
+
+/* Campos de solo lectura (id de usuario, por ejemplo) */
+.register-passport-readonly {
+  background: rgba(255, 255, 255, 0.16);
+  color: rgba(255, 255, 255, 0.9);
+  cursor: default;
+}
+
+/* Grupo de checkboxes (habilitado, etc.) */
+.register-passport-checkbox-row {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem 1.5rem;
+  margin-top: 0.3rem;
+}
+
+.register-passport-checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.register-passport-checkbox-label input {
+  accent-color: #4997D0;
+}
+
+/* Mensajes de error */
+.register-passport-form .error-message {
+  grid-column: 1 / -1;
+  margin-top: 0.5rem;
+}
+
+/* Acciones (botones) */
+.register-passport-actions {
+  grid-column: 1 / -1;
+  margin-top: 1.4rem;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.8rem;
+}
+
+/* Botón secundario (Cancelar/Volver) */
+.register-passport-btn-secondary {
+  padding: 0.85rem 1.3rem;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  background: transparent;
+  color: #ffffff;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s ease,
+              color 0.2s ease,
+              transform 0.1s ease;
+}
+
+.register-passport-btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.14);
+  transform: translateY(-1px);
+}
+
+/* Botón principal reutiliza .submit-btn de Login.css */
+.register-passport-actions .submit-btn {
+  min-width: 160px;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .register-passport-card {
+    padding: 2.1rem 1.8rem 2rem;
+  }
+
+  .register-passport-form {
+    grid-template-columns: 1fr;
+  }
+
+  .register-passport-actions {
+    flex-direction: column-reverse;
+    align-items: stretch;
+  }
+
+  .register-passport-btn-secondary,
+  .register-passport-actions .submit-btn {
+    width: 100%;
+  }
+}

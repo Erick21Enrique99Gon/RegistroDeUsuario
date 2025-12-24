@@ -1,0 +1,205 @@
+/* Página general */
+.all-passports-page {
+  min-height: 100vh;
+  padding: 5rem 1.5rem 2rem;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+/* Card principal */
+.all-passports-card {
+  width: 100%;
+  max-width: 1100px;
+  background: rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  padding: 2.4rem 2.5rem 2.2rem;
+  box-shadow:
+    0 26px 50px rgba(0, 0, 0, 0.22),
+    0 0 0 1px rgba(255, 255, 255, 0.08);
+  position: relative;
+  overflow: hidden;
+}
+
+.all-passports-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -20%;
+  right: -20%;
+  height: 5px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    #4997D0 20%,
+    #ffffff 50%,
+    #4997D0 80%,
+    transparent 100%
+  );
+}
+
+/* Encabezado */
+.all-passports-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.6rem;
+}
+
+.all-passports-title {
+  font-family: "Poppins", system-ui, sans-serif;
+  font-size: 1.7rem;
+  font-weight: 600;
+  color: #ffffff;
+  letter-spacing: -0.02em;
+}
+
+.all-passports-subtitle {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+/* Filtros */
+.all-passports-filters {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem 1.25rem;
+  margin-bottom: 1.4rem;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.filter-label {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.filter-input {
+  padding: 0.65rem 0.9rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.filter-input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.filter-input:focus {
+  border-color: #73A8E0;
+  background: rgba(255, 255, 255, 0.22);
+  box-shadow: 0 0 0 3px rgba(73, 168, 224, 0.35);
+}
+
+/* Tabla */
+.all-passports-table-wrapper {
+  overflow-x: auto;
+  border-radius: 18px;
+}
+
+.all-passports-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  color: #ffffff;
+}
+
+.all-passports-table thead {
+  background: rgba(0, 37, 84, 0.65);
+}
+
+.all-passports-table th,
+.all-passports-table td {
+  padding: 0.65rem 0.9rem;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.all-passports-table th {
+  font-weight: 600;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.all-passports-table tbody tr:nth-child(odd) {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.all-passports-table tbody tr:nth-child(even) {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.all-passports-table tbody tr:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+/* Flag de estado (reutiliza lo que ya usaste antes) */
+.passport-flag {
+  padding: 0.2rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.passport-flag-on {
+  background: rgba(40, 167, 69, 0.2);
+  color: #d4f8df;
+  border: 1px solid rgba(40, 167, 69, 0.7);
+}
+
+.passport-flag-off {
+  background: rgba(220, 53, 69, 0.2);
+  color: #ffd4d4;
+  border: 1px solid rgba(220, 53, 69, 0.7);
+}
+
+/* Botón de acción */
+.table-action {
+  padding: 0.45rem 0.9rem;
+  border-radius: 999px;
+  border: none;
+  background: linear-gradient(135deg, #4997D0, #73A8E0);
+  color: #ffffff;
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: transform 0.1s ease, box-shadow 0.2s ease;
+}
+
+.table-action:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
+}
+
+/* Estado vacío */
+.all-passports-empty {
+  text-align: center;
+  padding: 1rem 0.5rem;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .all-passports-card {
+    padding: 2.1rem 1.8rem 2rem;
+  }
+
+  .all-passports-filters {
+    grid-template-columns: 1fr;
+  }
+}

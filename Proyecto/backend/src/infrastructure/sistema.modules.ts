@@ -16,8 +16,9 @@ import { HabilitarPasaporteUsuarioSistemaUseCase } from "src/application/use_cas
 import { ListarPasaportesSistemaUseCase } from "src/application/use_cases/listarPasaportes.use_case";
 import { ListarPasaportesUsuarioSistemaUseCase } from "src/application/use_cases/listarPasaportesUsuario.use_case";
 import { ListarPaisesSistemaUseCase } from "src/application/use_cases/listarPaises_sisstema.use_case";
+import { EmailModule } from "./services/email/email.module";
 @Module({
-    imports: [MySQLModule],
+    imports: [MySQLModule,EmailModule],
     controllers: [SistemaController],
     providers: [
         RegistrarUsuarioSistemaUseCase,

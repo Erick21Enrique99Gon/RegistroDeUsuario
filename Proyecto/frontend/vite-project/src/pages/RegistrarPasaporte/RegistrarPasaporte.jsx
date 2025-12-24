@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { registraPasporte } from '../../services/AdministracionServices'; // Ajusta la ruta según tu estructura
-
+import "../Login/Login.css";      // para input-field, submit-btn, etc.
+import "./RegistrarPasaporte.css";
 const RegistrarPasaporte = () => {
   const { id } = useParams(); // ID del usuario
   const navigate = useNavigate();
@@ -55,24 +56,30 @@ const RegistrarPasaporte = () => {
   };
 
   return (
-    <div className="login-container">
-      <div className="login-content">
-        <h2 className="text-center">Registrar Pasaporte</h2>
-        
-        {error && (
-          <div className="error-message">{error}</div>
-        )}
-        
-        {success && (
-          <div className="success-message">{success}</div>
-        )}
+    <div className="register-passport-page">
+      <div className="register-passport-card">
+        <div className="register-passport-header">
+          <div>
+            <h2 className="register-passport-title">Registrar pasaporte</h2>
+            <p className="register-passport-subtitle">
+              Completa los datos del documento para el usuario
+            </p>
+          </div>
+          <span className="register-passport-badge">Usuario {id}</span>
+        </div>
 
-        <form onSubmit={handleSubmit} className="login-box">
-          <div className="input-group">
-            <label><strong>Número de Pasaporte</strong></label>
+        {error && <div className="error-message">{error}</div>}
+        {success && <div className="success-message">{success}</div>}
+
+        <form onSubmit={handleSubmit} className="register-passport-form">
+          <div className="input-group register-passport-full">
+            <label className="input-label">
+              Número de pasaporte
+            </label>
             <input
               type="text"
               name="numero_de_pasaporte"
+              className="input-field"
               value={formData.numero_de_pasaporte}
               onChange={handleChange}
               required
@@ -81,9 +88,12 @@ const RegistrarPasaporte = () => {
           </div>
 
           <div className="input-group">
-            <label><strong>Tipo de Pasaporte</strong></label>
+            <label className="input-label">
+              Tipo de pasaporte
+            </label>
             <select
               name="tipo_de_pasaporte"
+              className="input-field"
               value={formData.tipo_de_pasaporte}
               onChange={handleChange}
               required
@@ -97,10 +107,13 @@ const RegistrarPasaporte = () => {
           </div>
 
           <div className="input-group">
-            <label><strong>Fecha de Emisión</strong></label>
+            <label className="input-label">
+              Fecha de emisión
+            </label>
             <input
               type="date"
               name="fecha_de_emision"
+              className="input-field"
               value={formData.fecha_de_emision}
               onChange={handleChange}
               required
@@ -109,10 +122,13 @@ const RegistrarPasaporte = () => {
           </div>
 
           <div className="input-group">
-            <label><strong>Fecha de Vencimiento</strong></label>
+            <label className="input-label">
+              Fecha de vencimiento
+            </label>
             <input
               type="date"
               name="fecha_de_vencimiento"
+              className="input-field"
               value={formData.fecha_de_vencimiento}
               onChange={handleChange}
               required
@@ -121,10 +137,13 @@ const RegistrarPasaporte = () => {
           </div>
 
           <div className="input-group">
-            <label><strong>Lugar de Emisión</strong></label>
+            <label className="input-label">
+              Lugar de emisión
+            </label>
             <input
               type="text"
               name="lugar"
+              className="input-field"
               value={formData.lugar}
               onChange={handleChange}
               required
@@ -133,10 +152,13 @@ const RegistrarPasaporte = () => {
           </div>
 
           <div className="input-group">
-            <label><strong>País de Emisión</strong></label>
+            <label className="input-label">
+              País de emisión
+            </label>
             <input
               type="text"
               name="pais_de_emision"
+              className="input-field"
               value={formData.pais_de_emision}
               onChange={handleChange}
               required
@@ -144,29 +166,29 @@ const RegistrarPasaporte = () => {
             />
           </div>
 
-          <div className="text-center" style={{ marginTop: '20px' }}>
-            <button 
-              type="submit" 
-              className="btn btn-primary"
-              disabled={loading}
-            >
-              {loading ? 'Registrando...' : 'Registrar Pasaporte'}
-            </button>
-            
+          <div className="register-passport-actions">
             <button
               type="button"
-              className="btn btn-secondary"
+              className="register-passport-btn-secondary"
               onClick={() => navigate(`/editarUsuario/${id}`)}
               disabled={loading}
-              style={{ marginLeft: '10px' }}
             >
               Cancelar
+            </button>
+
+            <button
+              type="submit"
+              className="submit-btn"
+              disabled={loading}
+            >
+              {loading ? "Registrando..." : "Registrar pasaporte"}
             </button>
           </div>
         </form>
       </div>
     </div>
   );
+
 };
 
 export default RegistrarPasaporte;

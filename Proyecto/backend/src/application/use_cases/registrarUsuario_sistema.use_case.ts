@@ -4,11 +4,12 @@ import { AdministracionContract } from "src/domain/contracts/administracion.cont
 import { InvalidRequestError } from "src/domain/errors/invalid_request.error";
 import { Usuario } from "src/domain/interfaces/sistema.interfaces";
 import * as bcrypt from 'bcrypt';
+import { EmailService } from "src/infrastructure/services/email/email.service";     
 
 @Injectable()
 export class RegistrarUsuarioSistemaUseCase {
     private readonly saltRounds : number = parseInt(process.env.HASH_SALT_ROUNDS || '12', 10);
-    constructor(private readonly _sistema: AdministracionContract) {}
+    constructor(private readonly _sistema: AdministracionContract, private readonly emailService: EmailService) {}
 
     async execute(body: RegistrarUsuarioUseCaseRequest) {
 
@@ -84,6 +85,18 @@ export class RegistrarUsuarioSistemaUseCase {
             habilitado: true 
         };
         await this._sistema.registrarUsuario(usuario)
+
+        try {
+            await this.emailService.sendWelcomeEmail({
+                id,
+                nombres: body.nombres,
+                apellidos: body.apellidos,
+                correo_electronico: body.correo_electronico
+            });
+        } catch (error) {
+        console.error('Email falló:', error);
+        }
+
         var usuarioResponse: Usuario = { 
             ...usuario,
             contrasenia: ""

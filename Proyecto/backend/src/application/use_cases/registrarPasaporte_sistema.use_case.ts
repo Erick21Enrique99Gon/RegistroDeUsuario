@@ -14,7 +14,7 @@ export class RegistrarPasaporteSistemaUseCase {
 
     async execute(body: RegistrarPasaporteUseCaseRequest) {
         // Validaciones de negocio
-        console.log(body)
+        
         
         if (!body.id_usuario?.trim()) {
             throw new InvalidRequestError('ID de usuario requerido');
