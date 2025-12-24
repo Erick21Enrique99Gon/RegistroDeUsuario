@@ -25,6 +25,7 @@ services:
       retries: 10
 
   backend:
+    image: 11erick21/proyecto-backend:1.0.0 
     container_name: sistema-backend
     build: ./backend
     ports:
@@ -47,6 +48,7 @@ services:
       - mysql
     restart: always
   frontend:
+    image: 11erick21/proyecto-frontend:1.0.0 
     container_name: sistema-frontend
     build: ./frontend/vite-project
     ports:

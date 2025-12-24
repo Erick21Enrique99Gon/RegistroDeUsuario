@@ -188,6 +188,7 @@ export default function Register() {
                   value={formData.genero}
                   onChange={handleInputChange}
                   className="input-field"
+                  required
                 >
                   <option value="">Seleccione...</option>
                   <option value="Hombre">Hombre</option>

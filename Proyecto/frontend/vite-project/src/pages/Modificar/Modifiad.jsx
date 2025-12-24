@@ -115,10 +115,7 @@ export default function ModificarUsuario() {
         return;
       }
 
-      console.log('Actualizando usuario:', formData);
       if (formData.contrasenia) {
-
-        console.log(formData.contrasenia)
 
 
         const resp = await autenticarUsuario(formData.id, contraseniaActual);
@@ -128,7 +125,6 @@ export default function ModificarUsuario() {
           return;
         }
 
-        console.log('Actualizando contraseña...');
         await contraseniaUsuario(formData.id, formData.contrasenia);
         
         alert('Contraseña actualizada exitosamente'); 

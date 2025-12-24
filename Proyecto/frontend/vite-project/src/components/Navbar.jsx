@@ -18,7 +18,6 @@ const Navbar = () => {
     const esAdmin = esCiudadano && usuario?.administrador;
 
     const handleLogout = () => {
-        console.log("saliendo")
         deleteCookie("usuario");
         deleteCookie("autenticacion");
         navigate("/login", { replace: true });
