@@ -73,7 +73,8 @@ export class SistemaController {
             throw e;
         }
     }
-
+    
+    @UseGuards(JwtAuthGuard)
     @Get('obtenerUsuario/:id')
     async obtenerUsuario(@Param('id') id: string) {
         try {
@@ -87,6 +88,7 @@ export class SistemaController {
         }
     }
 
+    @UseGuards(JwtAuthGuard)
     @Post('modificarUsuario')
     async modificarUsuario(@Body() body: ModificarUsuarioUseCaseRequest) {
         try {
@@ -99,7 +101,8 @@ export class SistemaController {
             throw e;
         }
     }
-
+    
+    @UseGuards(JwtAuthGuard)
     @Post('/status/:id') 
     async toggleUsuarioStatus(@Param('id') id: string) {
         try {
@@ -112,7 +115,8 @@ export class SistemaController {
             throw e;
         }
     }
-
+    
+    @UseGuards(JwtAuthGuard)
     @Post('/contraseniaUsuario') 
     async contraseniaUsuario(@Body() body: ContraseniaUsuarioUseCaseRequest) {
         try {
@@ -140,6 +144,7 @@ export class SistemaController {
         }
     }
 
+    @UseGuards(JwtAuthGuard)
     @Get('listarUsuarios')
     async listarUsuarios() {
         try {
@@ -153,6 +158,7 @@ export class SistemaController {
         }
     }
 
+    @UseGuards(JwtAuthGuard)
     @Post('registrarPasaporte')
     async registrarPasaporte(@Body() body:RegistrarPasaporteUseCaseRequest) {
         try {
@@ -169,6 +175,7 @@ export class SistemaController {
         }
     }
 
+    @UseGuards(JwtAuthGuard)
     @Get('obtenerPasaporte/:usuarioId/:pasaporte/:lugar')
     async obtenerPasaporte(@Param('usuarioId') usuarioId: string,@Param('pasaporte') pasaporte: string,@Param('lugar') lugar: string) {
         try {
@@ -182,6 +189,7 @@ export class SistemaController {
         }
     }
 
+    @UseGuards(JwtAuthGuard)
     @Post('habilitarPasaporteUsuario/:usuarioId/:pasaporte/:lugar')
     async habilitarPasaporteUsuario(@Param('usuarioId') usuarioId: string,@Param('pasaporte') pasaporte: string,@Param('lugar') lugar: string) {
         try {
@@ -195,6 +203,7 @@ export class SistemaController {
         }
     }
 
+    @UseGuards(JwtAuthGuard)
     @Get('listarPasaportes')
     async listarPasaportes() {
         try {
@@ -208,6 +217,7 @@ export class SistemaController {
         }
     }
 
+    @UseGuards(JwtAuthGuard)
     @Post('listarPasaportesUsuario/:usuarioId')
     async listarPasaportesUsuario(@Param('usuarioId') usuarioId: string) {
         try {

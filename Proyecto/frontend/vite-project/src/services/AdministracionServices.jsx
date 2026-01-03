@@ -1,3 +1,5 @@
+import { getCookie } from "../utils/cookies";
+
 const API_URL = import.meta.env.VITE_BACK_END || 'http://localhost:3000/';
 
 export const autenticarUsuario = async (id, contrasenia) => {
@@ -10,9 +12,9 @@ export const autenticarUsuario = async (id, contrasenia) => {
       body: JSON.stringify(payload),
     });
 
-    console.log('status =>', res.status);      // <--- importante
+    console.log('status =>', res.status);
     const data = await res.json();
-    console.log('data =>', data);             // debes ver el JSON como en Postman
+    console.log('data =>', data);
     if (!res.ok) throw new Error('Error al autenticar');
     return data;
   } catch (err) {
@@ -58,11 +60,11 @@ export const registrarUsuario = async (formData) => {
 
 export const listarPaises = async () => {
   try {
-    const res = await fetch(`api/listarPaises`, {
+    const res = await fetch(`/api/listarPaises`, {
       method: 'GET',
     });
 
-
+    
     const data = await res.json();
 
     if (!res.ok) throw new Error('Error al autenticar');
@@ -91,12 +93,17 @@ export const modificarUsuario = async (formData) => {
     habilitado: true,
   };
 
+  const token = getCookie('token');
+
   console.log('payload =>', payload);
 
   try {
     const res = await fetch(`/api/modificarUsuario`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
       body: JSON.stringify(payload),
     });
 
@@ -113,9 +120,16 @@ export const modificarUsuario = async (formData) => {
 
 export const listarPasaportesUsuario = async (id) => {
   try {
+
+
+    const token = getCookie('token');
+
     const res = await fetch(`/api/listarPasaportesUsuario/${id}`, {
-      method: 'POST', // Cambiar a GET para consulta
-      credentials: 'include', // Para enviar cookies de autenticación
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      },
     });
 
     const data = await res.json();
@@ -133,9 +147,14 @@ export const contraseniaUsuario = async (id, contrasenia) => {
     const payload = { id, contrasenia };
     console.log(payload)
     console.log("payload")
+    const token = getCookie('token');
+
     const res = await fetch(`/api/contraseniaUsuario`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
       body: JSON.stringify(payload),
     });
 
@@ -152,8 +171,13 @@ export const contraseniaUsuario = async (id, contrasenia) => {
 
 export const listarUsuarios = async () => {
   try {
+    const token = getCookie('token');
+
     const res = await fetch(`/api/listarUsuarios`, {
       method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      },
     });
 
 
@@ -169,9 +193,16 @@ export const listarUsuarios = async () => {
 
 export const obtenerUsuario = async (id) => {
   try {
+    const token = getCookie('token');
+
+    console.log(token)
+
     const res = await fetch(`/api/obtenerUsuario/${id}`, {
-      method: 'GET', // Cambiar a GET para consulta
-      credentials: 'include', // Para enviar cookies de autenticación
+      method: 'GET',
+      credentials: 'include',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      },
     });
     const data = await res.json();
     if (!res.ok) throw new Error('Error al obtener usuario');
@@ -184,9 +215,14 @@ export const obtenerUsuario = async (id) => {
 
 export const status = async (id) => {
   try {
+    const token = getCookie('token');
+
     const res = await fetch(`/api/status/${id}`, {
-      method: 'POST', // Cambiar a GET para consulta
-      credentials: 'include', // Para enviar cookies de autenticación
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      },
     });
     const data = await res.json();
     if (!res.ok) throw new Error('Error al listar pasaportes');
@@ -197,11 +233,16 @@ export const status = async (id) => {
   }
 };
 
-export const habilitarPasaporteUsuario = async (id,pasaporte,lugar) => {
+export const habilitarPasaporteUsuario = async (id, pasaporte, lugar) => {
   try {
+    const token = getCookie('token');
+
     const res = await fetch(`/api/habilitarPasaporteUsuario/${id}/${pasaporte}/${lugar}`, {
-      method: 'POST', // Cambiar a GET para consulta
-      credentials: 'include', // Para enviar cookies de autenticación
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      },
     });
     const data = await res.json();
     if (!res.ok) throw new Error('Error al listar pasaportes');
@@ -227,16 +268,21 @@ export const registraPasporte = async (formData) => {
   console.log('payload =>', payload);
 
   try {
+    const token = getCookie('token');
+
     const res = await fetch('/api/registrarPasaporte', { // Corregido el endpoint
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
       body: JSON.stringify(payload),
     });
 
     console.log('status =>', res.status);
     const data = await res.json();
     console.log('data =>', data);
-    
+
     if (!res.ok) throw new Error('Error al registrar pasaporte');
     return data;
   } catch (err) {
@@ -248,8 +294,13 @@ export const registraPasporte = async (formData) => {
 
 export const listarPasaportes = async () => {
   try {
+    const token = getCookie('token');
+
     const res = await fetch(`/api/listarPasaportes`, {
       method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      },
     });
     const data = await res.json();
     return data;
@@ -261,11 +312,16 @@ export const listarPasaportes = async () => {
 
 
 
-export const obtenerPasaporte = async (id,pasaporte,lugar) => {
+export const obtenerPasaporte = async (id, pasaporte, lugar) => {
   try {
+    const token = getCookie('token');
+
     const res = await fetch(`/api/obtenerPasaporte/${id}/${pasaporte}/${lugar}`, {
-      method: 'GET', // Cambiar a GET para consulta
-      credentials: 'include', // Para enviar cookies de autenticación
+      method: 'GET',
+      credentials: 'include',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      },
     });
     const data = await res.json();
     if (!res.ok) throw new Error('Error al listar pasaportes');
