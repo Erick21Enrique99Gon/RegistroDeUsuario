@@ -21,6 +21,7 @@ export default function Login() {
     const resp = await autenticarUsuario(formData.id, formData.contrasenia);
 
     if (resp.autenticacion) {
+      setCookie('token', resp.token);
       setCookie("autenticacion", true);
       setCookie("usuario", resp.usuario);
       navigate("/modified");

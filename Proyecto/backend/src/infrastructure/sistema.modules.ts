@@ -17,8 +17,15 @@ import { ListarPasaportesSistemaUseCase } from "src/application/use_cases/listar
 import { ListarPasaportesUsuarioSistemaUseCase } from "src/application/use_cases/listarPasaportesUsuario.use_case";
 import { ListarPaisesSistemaUseCase } from "src/application/use_cases/listarPaises_sisstema.use_case";
 import { EmailModule } from "./services/email/email.module";
+import { JwtModule } from '@nestjs/jwt';
+import { JwtAuthGuard } from "src/presentation/guards/jwt.guard";
 @Module({
-    imports: [MySQLModule,EmailModule],
+    imports: [MySQLModule, EmailModule,
+        JwtModule.register({
+            secret: process.env.JWT_SECRET || 'tu-secret-key',
+            signOptions: { expiresIn: '24h' }
+        })
+    ],
     controllers: [SistemaController],
     providers: [
         RegistrarUsuarioSistemaUseCase,
@@ -34,11 +41,12 @@ import { EmailModule } from "./services/email/email.module";
         ListarPasaportesSistemaUseCase,
         ListarPasaportesUsuarioSistemaUseCase,
         ListarPaisesSistemaUseCase,
+        JwtAuthGuard,
         {
-            provide:AdministracionContract,
-            useClass:MySQLAdministracionRepository
+            provide: AdministracionContract,
+            useClass: MySQLAdministracionRepository
         }
     ],
-    exports:[AdministracionContract]
+    exports: [AdministracionContract]
 })
 export class SistemaModules { }

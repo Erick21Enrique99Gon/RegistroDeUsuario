@@ -1,25 +1,40 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { registraPasporte } from '../../services/AdministracionServices'; // Ajusta la ruta según tu estructura
+import { registraPasporte, listarPaises } from '../../services/AdministracionServices'; // Ajusta la ruta según tu estructura
 import "../Login/Login.css";      // para input-field, submit-btn, etc.
 import "./RegistrarPasaporte.css";
 const RegistrarPasaporte = () => {
   const { id } = useParams(); // ID del usuario
   const navigate = useNavigate();
-  
+
   const [formData, setFormData] = useState({
     id_usuario: id,
     tipo_de_pasaporte: '',
     fecha_de_emision: '',
     fecha_de_vencimiento: '',
     lugar: '',
-    pais_de_emision: '',
+    pais_de_emision: 0,
     numero_de_pasaporte: ''
   });
-  
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [paises, setPaises] = useState([]);
+
+  useEffect(() => {
+    const fetchPaises = async () => {
+      try {
+        const resp = await listarPaises();
+        console.log(resp)
+        setPaises(resp);
+      } catch (error) {
+        console.error('Error al cargar países', error);
+      }
+    };
+
+    fetchPaises();
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -37,16 +52,16 @@ const RegistrarPasaporte = () => {
     setLoading(true);
     setError('');
     setSuccess('');
-
+    console.log(formData)
     try {
       await registraPasporte(formData);
       setSuccess('Pasaporte registrado exitosamente');
-      
+
       // Redirigir al detalle del usuario después de 1.5 segundos
       setTimeout(() => {
-        navigate(`/detalle-usuario/${id}`); // Ajusta la ruta según tu app
+        navigate(`/editarUsuario/${id}`); // Ajusta la ruta según tu app
       }, 1500);
-      
+
     } catch (err) {
       console.error('Error al registrar pasaporte:', err);
       setError(err.message || 'Error al registrar pasaporte');
@@ -152,18 +167,22 @@ const RegistrarPasaporte = () => {
           </div>
 
           <div className="input-group">
-            <label className="input-label">
-              País de emisión
-            </label>
-            <input
-              type="text"
+            <label htmlFor="pais_de_emision" className="input-label">País *</label>
+            <select
+              id="pais_de_emision"
               name="pais_de_emision"
-              className="input-field"
               value={formData.pais_de_emision}
               onChange={handleChange}
+              className="input-field"
               required
-              disabled={loading}
-            />
+            >
+              <option value="">Seleccione...</option>
+              {paises.map((pais_de_emision) => (
+                <option key={pais_de_emision.id} value={pais_de_emision.id}>
+                  {pais_de_emision.nombre}
+                </option>
+              ))}
+            </select>
           </div>
 
           <div className="register-passport-actions">

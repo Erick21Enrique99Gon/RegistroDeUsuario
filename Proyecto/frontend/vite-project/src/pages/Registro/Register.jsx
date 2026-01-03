@@ -1,4 +1,4 @@
-import { registrarUsuario, listarPaises } from '../../services/AdministracionServices';
+import { registrarUsuario, listarPaises,autenticarUsuario } from '../../services/AdministracionServices';
 import { useState, useEffect } from 'react';
 import "./Login.css"; // MISMO CSS que el login
 import { setCookie } from '../../utils/cookies';
@@ -61,6 +61,9 @@ export default function Register() {
       
       if (response.ok && response.usuarioResponse) {
         // Usar tus funciones setCookie existentes
+
+        const resp = await autenticarUsuario(response.usuarioResponse.id, formData.contrasenia);
+        setCookie('token', resp.token);
         setCookie("autenticacion", true);
         setCookie("usuario", response.usuarioResponse);
         
@@ -227,16 +230,6 @@ export default function Register() {
                   onChange={handleCheckboxChange}
                 />
                 Administrador
-              </label>
-
-              <label className="checkbox-label">
-                <input
-                  type="checkbox"
-                  name="ciudadano"
-                  checked={formData.ciudadano}
-                  onChange={handleCheckboxChange}
-                />
-                Ciudadano
               </label>
             </div>
 

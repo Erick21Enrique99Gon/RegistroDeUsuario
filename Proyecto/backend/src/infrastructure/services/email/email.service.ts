@@ -58,4 +58,7 @@ export class EmailService implements EmailContract {
       throw new Error('Fallo al enviar email de bienvenida');
     }
   }
+
+
+  
 }
