@@ -523,3 +523,161 @@ CALL insertar_usuario('user004', 'admin2@system.com', '+528765432109', 'Admin', 
 
 CALL insertar_usuario('user005', 'super.admin@email.com', '+55123456789', 'Carlos', 'Rodríguez Silva', 'M', 'Masculino', 1, UNHEX(SHA2('superpass', 256)), TRUE, TRUE);
 CALL insertar_usuario('user006', 'super.admin2@email.com', '+557654321', 'Ana', 'Martínez Vargas', 'F', 'Femenino', 1, UNHEX(SHA2('superpass2', 256)), TRUE, TRUE);
+
+CALL insertar_usuario('user007', 'lucia.lopez@example.com', '+50212340001', 'Lucía', 'López Hernández', 'F', 'Femenino', 94, UNHEX(SHA2('Lucia2024!', 256)), FALSE, TRUE);
+CALL insertar_usuario('user008', 'carlos.mendez@example.com', '+50212340002', 'Carlos', 'Méndez Ruiz', 'M', 'Masculino', 94, UNHEX(SHA2('CarMend#45', 256)), FALSE, TRUE);
+CALL insertar_usuario('user009', 'sofia.ramirez@example.com', '+50212340003', 'Sofía', 'Ramírez Soto', 'F', 'Femenino', 94, UNHEX(SHA2('Sofi*890', 256)), FALSE, TRUE);
+CALL insertar_usuario('user010', 'jose.martinez@example.com', '+50212340004', 'José', 'Martínez Pérez', 'M', 'Masculino', 94, UNHEX(SHA2('JoseMP_123', 256)), FALSE, TRUE);
+CALL insertar_usuario('user011', 'andrea.garcia@example.com', '+50212340005', 'Andrea', 'García López', 'F', 'Femenino', 94, UNHEX(SHA2('AndGarc!55', 256)), FALSE, TRUE);
+
+CALL insertar_usuario('user012', 'admin.guate1@example.com', '+50212340006', 'Admin', 'Guatemala Uno', 'M', 'Masculino', 94, UNHEX(SHA2('AdmGua1$', 256)), TRUE, TRUE);
+CALL insertar_usuario('user013', 'admin.guate2@example.com', '+50212340007', 'Admin', 'Guatemala Dos', 'F', 'Femenino', 94, UNHEX(SHA2('AdmGua2$', 256)), TRUE, TRUE);
+CALL insertar_usuario('user014', 'ciudadano1@example.com', '+50212340008', 'Luis', 'Pérez Díaz', 'M', 'Masculino', 94, UNHEX(SHA2('LuisP#2024', 256)), FALSE, TRUE);
+CALL insertar_usuario('user015', 'ciudadano2@example.com', '+50212340009', 'María', 'Fernández Solís', 'F', 'Femenino', 94, UNHEX(SHA2('MarFer_77', 256)), FALSE, TRUE);
+CALL insertar_usuario('user016', 'ciudadano3@example.com', '+50212340010', 'Diego', 'Castillo Torres', 'M', 'Masculino', 94, UNHEX(SHA2('DieCast!9', 256)), FALSE, TRUE);
+
+CALL insertar_usuario('user017', 'no.binario1@example.com', '+50212340011', 'Alex', 'Guzmán López', 'X', 'No Binario', 94, UNHEX(SHA2('AlexNB_01', 256)), FALSE, TRUE);
+CALL insertar_usuario('user018', 'funcionario1@example.com', '+50212340012', 'Ricardo', 'Santos Mejía', 'M', 'Masculino', 94, UNHEX(SHA2('Func1Ric$', 256)), TRUE, FALSE);
+CALL insertar_usuario('user019', 'funcionario2@example.com', '+50212340013', 'Patricia', 'Vargas León', 'F', 'Femenino', 94, UNHEX(SHA2('Func2Pat#', 256)), TRUE, FALSE);
+CALL insertar_usuario('user020', 'user.exterior1@example.com', '+34900123456', 'Javier', 'Ortiz Gómez', 'M', 'Masculino', 179, UNHEX(SHA2('JavOrt!23', 256)), FALSE, TRUE);
+CALL insertar_usuario('user021', 'user.exterior2@example.com', '+12025550111', 'Emily', 'Johnson', 'F', 'Femenino', 195, UNHEX(SHA2('EmilyUSA_5', 256)), FALSE, TRUE);
+
+CALL insertar_usuario('user022', 'superadmin1@example.com', '+50212340014', 'Super', 'Admin Uno', 'M', 'Masculino', 94, UNHEX(SHA2('SupAdm1!!', 256)), TRUE, TRUE);
+CALL insertar_usuario('user023', 'superadmin2@example.com', '+50212340015', 'Super', 'Admin Dos', 'F', 'Femenino', 94, UNHEX(SHA2('SupAdm2!!', 256)), TRUE, TRUE);
+CALL insertar_usuario('user024', 'test.duplicado@example.com', '+50212340016', 'Prueba', 'Duplicado Uno', 'M', 'Masculino', 94, UNHEX(SHA2('TestDup1%', 256)), FALSE, TRUE);
+CALL insertar_usuario('user025', 'test.duplicado@example.com', '+50212340017', 'Prueba', 'Duplicado Dos', 'F', 'Femenino', 94, UNHEX(SHA2('TestDup2%', 256)), FALSE, TRUE); -- ERROR_EMAIL_DUPLICADO
+CALL insertar_usuario('user026', 'pais.invalido@example.com', '+50212340018', 'Pais', 'Invalido', 'M', 'Masculino', 999, UNHEX(SHA2('PaisInv#1', 256)), FALSE, TRUE); -- ERROR_PAIS_INVALIDO
+
+-- Para user001 (Juan Pérez - Argentina país 1)
+CALL insertar_pasaporte('user001', 'Ordinario', '2020-01-15 00:00:00', '2030-01-15 00:00:00', 'Buenos Aires', 1, 'AB123456');
+CALL insertar_pasaporte('user001', 'Emergencia', '2023-06-10 00:00:00', '2026-06-10 00:00:00', 'Córdoba', 1, 'CD789012');
+CALL insertar_pasaporte('user001', 'Diplomático', '2021-03-20 00:00:00', '2031-03-20 00:00:00', 'Rosario', 1, 'EF345678');
+
+-- Para user002 (María Gómez - Argentina país 1)
+CALL insertar_pasaporte('user002', 'Ordinario', '2019-11-05 00:00:00', '2029-11-05 00:00:00', 'Mendoza', 1, 'GH901234');
+CALL insertar_pasaporte('user002', 'Turista', '2024-02-14 00:00:00', '2027-02-14 00:00:00', 'Salta', 1, 'IJ567890');
+
+-- Para user003 (Admin Sistema - México país 140)
+CALL insertar_pasaporte('user003', 'Oficial', '2022-08-01 00:00:00', '2032-08-01 00:00:00', 'Ciudad de México', 140, 'KL123456');
+CALL insertar_pasaporte('user003', 'Ordinario', '2021-05-12 00:00:00', '2031-05-12 00:00:00', 'Guadalajara', 140, 'MN789012');
+CALL insertar_pasaporte('user003', 'Temporal', '2023-12-20 00:00:00', '2028-12-20 00:00:00', 'Monterrey', 140, 'OP345678');
+CALL insertar_pasaporte('user003', 'Emergencia', '2024-01-15 00:00:00', '2026-01-15 00:00:00', 'Puebla', 140, 'QR901234');
+
+-- Para user007 (Lucía López - Guatemala 94) - 6 pasaportes
+CALL insertar_pasaporte('user007', 'Ordinario', '2022-04-10 00:00:00', '2032-04-10 00:00:00', 'Guatemala City', 94, 'GT00123456');
+CALL insertar_pasaporte('user007', 'Duplicado', '2020-09-15 00:00:00', '2030-09-15 00:00:00', 'Quetzaltenango', 94, 'GT78901234');
+CALL insertar_pasaporte('user007', 'Temporal', '2023-07-22 00:00:00', '2028-07-22 00:00:00', 'Antigua Guatemala', 94, 'GT34567890');
+CALL insertar_pasaporte('user007', 'Emergencia', '2024-03-05 00:00:00', '2026-03-05 00:00:00', 'Escuintla', 94, 'GT90123456');
+CALL insertar_pasaporte('user007', 'Oficial', '2021-11-30 00:00:00', '2031-11-30 00:00:00', 'Cobán', 94, 'GT56789012');
+CALL insertar_pasaporte('user007', 'Turista', '2022-12-18 00:00:00', '2027-12-18 00:00:00', 'Puerto Barrios', 94, 'GT23456789');
+
+-- Para user012 (Admin Guatemala - Guatemala 94) - 4 pasaportes
+CALL insertar_pasaporte('user012', 'Administrativo', '2023-01-01 00:00:00', '2033-01-01 00:00:00', 'Ministerio Guatemala', 94, 'ADM001234');
+CALL insertar_pasaporte('user012', 'Ordinario', '2021-06-15 00:00:00', '2031-06-15 00:00:00', 'Guatemala City', 94, 'ADM567890');
+CALL insertar_pasaporte('user012', 'Temporal', '2024-05-20 00:00:00', '2029-05-20 00:00:00', 'Zacapa', 94, 'ADM123789');
+CALL insertar_pasaporte('user012', 'Duplicado', '2019-10-10 00:00:00', '2029-10-10 00:00:00', 'Chiquimula', 94, 'ADM456012');
+
+-- Para user020 (Javier Ortiz - España 179) - 3 pasaportes
+CALL insertar_pasaporte('user020', 'Ordinario', '2021-02-28 00:00:00', '2031-02-28 00:00:00', 'Madrid', 179, 'ES1234567Z');
+CALL insertar_pasaporte('user020', 'Duplicado', '2018-07-12 00:00:00', '2028-07-12 00:00:00', 'Barcelona', 179, 'ES8901234X');
+CALL insertar_pasaporte('user020', 'Temporal', '2023-11-05 00:00:00', '2028-11-05 00:00:00', 'Valencia', 179, 'ES5678901W');
+
+-- Para user022 (Superadmin1 - Guatemala 94) - 2 pasaportes
+CALL insertar_pasaporte('user022', 'Especial SuperAdmin', '2024-01-01 00:00:00', '2040-01-01 00:00:00', 'SuperAdmin HQ', 94, 'SUP001234');
+CALL insertar_pasaporte('user022', 'Backup', '2023-06-01 00:00:00', '2033-06-01 00:00:00', 'Guatemala City', 94, 'SUP567890');
+
+-- user001 (Juan Pérez)
+CALL insertar_pasaporte('user001', 'Ordinario', '2020-01-15 00:00:00', '2030-01-15 00:00:00', 'Buenos Aires', 1, 'AB123456');
+CALL habilitar_pasaporte('user001', 'AB123456', 'Buenos Aires');
+
+-- user002 (María Gómez)
+CALL insertar_pasaporte('user002', 'Ordinario', '2019-11-05 00:00:00', '2029-11-05 00:00:00', 'Mendoza', 1, 'GH901234');
+CALL habilitar_pasaporte('user002', 'GH901234', 'Mendoza');
+
+-- user003 (Admin Sistema)
+CALL insertar_pasaporte('user003', 'Oficial', '2022-08-01 00:00:00', '2032-08-01 00:00:00', 'Ciudad de México', 140, 'KL123456');
+CALL habilitar_pasaporte('user003', 'KL123456', 'Ciudad de México');
+
+-- user004 (Admin Sistema Dos)
+CALL insertar_pasaporte('user004', 'Oficial', '2022-09-01 00:00:00', '2032-09-01 00:00:00', 'Monterrey', 140, 'MN789012');
+CALL habilitar_pasaporte('user004', 'MN789012', 'Monterrey');
+
+-- user005 (Carlos SuperAdmin)
+CALL insertar_pasaporte('user005', 'SuperAdmin', '2023-01-01 00:00:00', '2040-01-01 00:00:00', 'Brasilia', 1, 'SUP001234');
+CALL habilitar_pasaporte('user005', 'SUP001234', 'Brasilia');
+
+-- user006 (Ana SuperAdmin)
+CALL insertar_pasaporte('user006', 'SuperAdmin', '2023-02-01 00:00:00', '2040-02-01 00:00:00', 'Rio de Janeiro', 1, 'SUP567890');
+CALL habilitar_pasaporte('user006', 'SUP567890', 'Rio de Janeiro');
+
+-- user007 (Lucía Guatemala) ★
+CALL insertar_pasaporte('user007', 'Ordinario', '2022-04-10 00:00:00', '2032-04-10 00:00:00', 'Guatemala City', 94, 'GT00123456');
+CALL habilitar_pasaporte('user007', 'GT00123456', 'Guatemala City');
+
+-- user008 (Carlos Méndez Guatemala)
+CALL insertar_pasaporte('user008', 'Ordinario', '2023-05-20 00:00:00', '2033-05-20 00:00:00', 'Antigua Guatemala', 94, 'GT23456789');
+CALL habilitar_pasaporte('user008', 'GT23456789', 'Antigua Guatemala');
+
+-- user009 (Sofía Guatemala)
+CALL insertar_pasaporte('user009', 'Temporal', '2021-08-15 00:00:00', '2031-08-15 00:00:00', 'Quetzaltenango', 94, 'GT34567890');
+CALL habilitar_pasaporte('user009', 'GT34567890', 'Quetzaltenango');
+
+-- user010 (José Guatemala)
+CALL insertar_pasaporte('user010', 'Ordinario', '2020-12-01 00:00:00', '2030-12-01 00:00:00', 'Cobán', 94, 'GT45678901');
+CALL habilitar_pasaporte('user010', 'GT45678901', 'Cobán');
+
+-- user011 (Andrea Guatemala)
+CALL insertar_pasaporte('user011', 'Turista', '2023-03-10 00:00:00', '2028-03-10 00:00:00', 'Puerto Barrios', 94, 'GT56789012');
+CALL habilitar_pasaporte('user011', 'GT56789012', 'Puerto Barrios');
+
+-- user012 (Admin Guatemala)
+CALL insertar_pasaporte('user012', 'Administrativo', '2023-01-01 00:00:00', '2033-01-01 00:00:00', 'Ministerio Guatemala', 94, 'ADM001234');
+CALL habilitar_pasaporte('user012', 'ADM001234', 'Ministerio Guatemala');
+
+-- user013 (Admin Guatemala Dos)
+CALL insertar_pasaporte('user013', 'Administrativo', '2023-01-02 00:00:00', '2033-01-02 00:00:00', 'Dirección General', 94, 'ADM567890');
+CALL habilitar_pasaporte('user013', 'ADM567890', 'Dirección General');
+
+-- user014 (Luis Guatemala)
+CALL insertar_pasaporte('user014', 'Ordinario', '2022-07-25 00:00:00', '2032-07-25 00:00:00', 'Escuintla', 94, 'GT67890123');
+CALL habilitar_pasaporte('user014', 'GT67890123', 'Escuintla');
+
+-- user015 (María Fernández Guatemala)
+CALL insertar_pasaporte('user015', 'Ordinario', '2021-10-30 00:00:00', '2031-10-30 00:00:00', 'Zacapa', 94, 'GT78901234');
+CALL habilitar_pasaporte('user015', 'GT78901234', 'Zacapa');
+
+-- user016 (Diego Guatemala)
+CALL insertar_pasaporte('user016', 'Temporal', '2023-04-12 00:00:00', '2028-04-12 00:00:00', 'Chiquimula', 94, 'GT89012345');
+CALL habilitar_pasaporte('user016', 'GT89012345', 'Chiquimula');
+
+-- user017 (Alex No Binario Guatemala)
+CALL insertar_pasaporte('user017', 'Ordinario', '2022-11-18 00:00:00', '2032-11-18 00:00:00', 'Huehuetenango', 94, 'GT90123456');
+CALL habilitar_pasaporte('user017', 'GT90123456', 'Huehuetenango');
+
+-- user018 (Ricardo Guatemala)
+CALL insertar_pasaporte('user018', 'Funcionario', '2023-02-15 00:00:00', '2033-02-15 00:00:00', 'Jutiapa', 94, 'FUNC001234');
+CALL habilitar_pasaporte('user018', 'FUNC001234', 'Jutiapa');
+
+-- user019 (Patricia Guatemala)
+CALL insertar_pasaporte('user019', 'Funcionario', '2023-02-16 00:00:00', '2033-02-16 00:00:00', 'Santa Rosa', 94, 'FUNC567890');
+CALL habilitar_pasaporte('user019', 'FUNC567890', 'Santa Rosa');
+
+-- user020 (Javier España)
+CALL insertar_pasaporte('user020', 'Ordinario', '2021-02-28 00:00:00', '2031-02-28 00:00:00', 'Madrid', 179, 'ES1234567Z');
+CALL habilitar_pasaporte('user020', 'ES1234567Z', 'Madrid');
+
+-- user021 (Emily USA)
+CALL insertar_pasaporte('user021', 'Turista', '2022-05-10 00:00:00', '2032-05-10 00:00:00', 'New York', 195, 'US9012345A');
+CALL habilitar_pasaporte('user021', 'US9012345A', 'New York');
+
+-- user022 (Superadmin1 Guatemala)
+CALL insertar_pasaporte('user022', 'SuperAdmin', '2024-01-01 00:00:00', '2040-01-01 00:00:00', 'SuperAdmin HQ', 94, 'SUP001234');
+CALL habilitar_pasaporte('user022', 'SUP001234', 'SuperAdmin HQ');
+
+-- user023 (Superadmin2 Guatemala)
+CALL insertar_pasaporte('user023', 'SuperAdmin', '2024-01-02 00:00:00', '2040-01-02 00:00:00', 'Backup HQ', 94, 'SUP567890');
+CALL habilitar_pasaporte('user023', 'SUP567890', 'Backup HQ');
+
+-- user024 (Prueba Guatemala)
+CALL insertar_pasaporte('user024', 'Test', '2024-01-03 00:00:00', '2029-01-03 00:00:00', 'Test City', 94, 'TEST001234');
+CALL habilitar_pasaporte('user024', 'TEST001234', 'Test City');
